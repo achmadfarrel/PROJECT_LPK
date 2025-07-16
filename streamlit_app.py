@@ -118,9 +118,14 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# WhatsApp bubble
+# WhatsApp bubble lengkap dengan teks
 st.markdown("""
-<a href="https://wa.me/6281234567890" target="_blank" style="position: fixed; bottom: 25px; right: 25px; z-index: 100;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="55" height="55" style="border-radius:50%;">
-</a>
+<div style="position: fixed; bottom: 25px; right: 25px; z-index: 100; display: flex; align-items: center;">
+    <a href="https://wa.me/62895609627802?text=Halo%20CHEM!GO%2C%20saya%20mau%20bertanya%20tentang%20produk%20laboratorium." target="_blank" style="text-decoration: none; display: flex; align-items: center;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="55" height="55" style="border-radius:50%; margin-right: 10px;">
+        <span style="background-color: #25D366; color: white; padding: 10px 15px; border-radius: 10px; font-family: 'Space Grotesk', sans-serif; font-size: 14px;">
+            CHAT DISINI UNTUK PERTANYAAN
+        </span>
+    </a>
+</div>
 """, unsafe_allow_html=True)
