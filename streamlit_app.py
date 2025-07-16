@@ -53,15 +53,20 @@ h1, h2 {
 if "cart" not in st.session_state:
     st.session_state.cart = []
 
-# Judul halaman versi Gen Z keren maksimal
-st.markdown("""
-<h1 style="font-family: 'Orbitron', sans-serif; font-size: 3.5rem; color: #1b5e20; margin-bottom: 0.2rem;">
-    🧪 CHEM!GO
-</h1>
-<p style="font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; color: #444;">
-    Platform Terpercaya se-AKA Bogor 🧬⚡
-</p>
-""", unsafe_allow_html=True)
+# Judul + Pencarian
+col_judul, col_search = st.columns([3, 1])
+with col_judul:
+    st.markdown("""
+    <h1 style="font-family: 'Orbitron', sans-serif; font-size: 3.5rem; color: #1b5e20; margin-bottom: 0.2rem;">
+        🧪 CHEM!GO
+    </h1>
+    <p style="font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; color: #444;">
+        Platform Terpercaya se-AKA Bogor 🧬⚡
+    </p>
+    """, unsafe_allow_html=True)
+
+with col_search:
+    search_query = st.text_input(" ", "", placeholder="Cari produk...", label_visibility="collapsed")
 
 # Data produk
 products = [
@@ -77,12 +82,15 @@ products = [
     {"name": "PIPET MOHR 10ML", "price": 75000, "image": "https://cdn7.bigcommerce.com/s-ufhcuzfxw9/images/stencil/1280x1280/products/11898/15926/CE-PIPEG10__90162.1503517941.jpg?c=2&imbypass=on"}
 ]
 
+# Filter produk berdasarkan pencarian
+filtered_products = [p for p in products if search_query.lower() in p["name"].lower()]
+
 # Tampilkan produk dalam 3 kolom per baris
-for i in range(0, len(products), 3):
+for i in range(0, len(filtered_products), 3):
     cols = st.columns(3)
     for idx, col in enumerate(cols):
-        if i + idx < len(products):
-            p = products[i + idx]
+        if i + idx < len(filtered_products):
+            p = filtered_products[i + idx]
             with col:
                 st.image(p["image"], use_container_width=True)
                 st.markdown(f"<h4 style='font-family: Orbitron, sans-serif;'>{p['name']}</h4>", unsafe_allow_html=True)
