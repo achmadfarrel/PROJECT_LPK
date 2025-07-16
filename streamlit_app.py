@@ -29,6 +29,7 @@ def login_page():
             st.session_state["logged_in"] = True
             st.session_state["username"] = username
             st.success("Login berhasil! Selamat datang, " + username)
+            st.query_params.clear()
             st.rerun()
         else:
             st.error("Username atau password salah!")
@@ -56,14 +57,16 @@ query_params = st.query_params
 if "register" in query_params:
     register_page()
     st.stop()
-elif "logged_in" not in st.session_state or not st.session_state["logged_in"]:
+elif "login" in query_params:
     login_page()
     st.stop()
 
-# Tombol logout
-if st.sidebar.button("Logout"):
-    st.session_state.logged_in = False
-    st.rerun()
+# Tombol logout jika sudah login
+if st.session_state.get("logged_in"):
+    if st.sidebar.button("Logout"):
+        st.session_state.logged_in = False
+        st.session_state.username = ""
+        st.rerun()
 
 # -------------------- STYLING --------------------
 st.markdown("""
@@ -141,7 +144,6 @@ products = [
     {"name": "PIPET MOHR 10ML", "price": 75000, "image": "https://cdn7.bigcommerce.com/s-ufhcuzfxw9/images/stencil/1280x1280/products/11898/15926/CE-PIPEG10__90162.1503517941.jpg?c=2&imbypass=on"}
 ]
 
-# Filter pencarian
 filtered_products = [p for p in products if search_query.lower() in p["name"].lower()]
 
 # Tampilkan produk
@@ -155,8 +157,12 @@ for i in range(0, len(filtered_products), 3):
                 st.markdown(f"<h4 style='font-family: Orbitron, sans-serif;'>{p['name']}</h4>", unsafe_allow_html=True)
                 st.markdown(f"<p><b>Rp {p['price']:,}</b></p>", unsafe_allow_html=True)
                 if st.button("🛒 Beli Yuk!", key=f"buy_{i+idx}"):
-                    st.session_state.cart.append(p)
-                    st.success(f"{p['name']} berhasil dimasukkan ke keranjang!")
+                    if not st.session_state.get("logged_in"):
+                        st.warning("Silakan login terlebih dahulu untuk membeli produk.")
+                        st.markdown("👉 [Klik di sini untuk login](?login=1)")
+                    else:
+                        st.session_state.cart.append(p)
+                        st.success(f"{p['name']} berhasil dimasukkan ke keranjang!")
 
 # Keranjang
 st.markdown("---")
@@ -182,7 +188,6 @@ st.markdown(
     '<p style="text-align:center; font-family:\'Orbitron\', sans-serif; font-size:1.1rem;">© 2025 CHEM!GO 🚀 — Marketplace Lab Tools Kekinian 🔬✨- POLITEKNIK AKA BOGOR </p>',
     unsafe_allow_html=True
 )
-
 st.markdown("""
 <div style="position: fixed; bottom: 25px; right: 25px; z-index: 100; display: flex; align-items: center;">
     <a href="https://wa.me/62895609627802?text=Halo%20CHEM!GO%2C%20saya%20mau%20bertanya%20tentang%20produk%20laboratorium." target="_blank" style="text-decoration: none; display: flex; align-items: center;">
