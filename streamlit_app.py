@@ -6,8 +6,8 @@ import requests
 # -------------------- KONFIGURASI --------------------
 st.set_page_config(page_title="CHEMIGO - Marketplace", layout="wide", page_icon="🛒")
 USER_DATA_FILE = "users.json"
-BOT_TOKEN = "8101821591:AAHW-tXE4-IRf3VSm-riFlpprlKa0uZGhRA"
-CHAT_ID = "8101821591"  # Ganti dengan chat_id Telegram kamu
+BOT_TOKEN = "8101821591:AAFoQ7LCEkq7F1XGyxjAhpsUd4P6xI37WhE"
+CHAT_ID = "1490556477"  # Ganti dengan chat_id Telegram kamu
 
 # -------------------- AUTENTIKASI --------------------
 def load_users():
