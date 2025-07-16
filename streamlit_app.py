@@ -73,8 +73,8 @@ products = [
     {"name": "ERLENMEYER 250ML", "price": 80000, "image": "https://tse2.mm.bing.net/th/id/OIP.SreUacbKVedTlO7BFsxFpQAAAA?pid=Api&P=0&h=220"},
     {"name": "ERLENMEYER 100ML", "price": 80000, "image": "https://tse2.mm.bing.net/th/id/OIP.T4JuL2Wy5LGHUfnN_Yt64QHaHa?pid=Api&P=0&h=220"},
     {"name": "ERLENMEYER 50ML", "price": 70000, "image": "https://tse4.mm.bing.net/th/id/OIP.FFz9bCD0xOT4sZku4XRr8gHaHa?pid=Api&P=0&h=220"},
-    {"name": "PIPET MOHR 5ML", "price": 70000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
-    {"name": "PIPET MOHR 10ML", "price": 75000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"}
+    {"name": "PIPET MOHR 5ML", "price": 70000, "image": "https://cdn11.bigcommerce.com/s-zgzol/images/stencil/1280x1280/products/9207/238283/gilson-company-5ml-mohr-type-measuring-pipette-blue__39500.1699680334.jpg?c=2"},
+    {"name": "PIPET MOHR 10ML", "price": 75000, "image": "https://cdn7.bigcommerce.com/s-ufhcuzfxw9/images/stencil/1280x1280/products/11898/15926/CE-PIPEG10__90162.1503517941.jpg?c=2&imbypass=on"}
 ]
 
 # Tampilkan produk dalam 3 kolom per baris
