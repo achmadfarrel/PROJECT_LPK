@@ -1,6 +1,7 @@
 import streamlit as st
 import json
 import os
+import requests
 
 # -------------------- KONFIGURASI --------------------
 st.set_page_config(page_title="CHEMIGO - Marketplace", layout="wide", page_icon="🛒")
@@ -30,7 +31,6 @@ def login_page():
             st.session_state["username"] = username
             st.success("Login berhasil! Selamat datang, " + username)
             st.query_params.clear()
-            # Cek apakah ada redirect setelah login
             if "redirect_after_login" in st.session_state:
                 st.session_state.cart.append(st.session_state["redirect_after_login"])
                 st.success(f"{st.session_state['redirect_after_login']['name']} berhasil dimasukkan ke keranjang!")
@@ -65,12 +65,15 @@ elif "login" in query_params:
     login_page()
     st.stop()
 
-# Tombol logout jika login
-if st.session_state.get("logged_in"):
-    if st.sidebar.button("Logout"):
-        st.session_state.logged_in = False
-        st.session_state.username = ""
-        st.rerun()
+if not st.session_state.get("logged_in"):
+    login_page()
+    st.stop()
+
+# -------------------- LOGOUT --------------------
+if st.sidebar.button("Logout"):
+    st.session_state.logged_in = False
+    st.session_state.username = ""
+    st.rerun()
 
 # -------------------- STYLING --------------------
 st.markdown("""
@@ -116,11 +119,10 @@ h1, h2 {
 </style>
 """, unsafe_allow_html=True)
 
-# -------------------- ISI HALAMAN --------------------
+# -------------------- PRODUK --------------------
 if "cart" not in st.session_state:
     st.session_state.cart = []
 
-# Judul + Pencarian
 col_judul, col_search = st.columns([3, 1])
 with col_judul:
     st.markdown("""
@@ -128,13 +130,12 @@ with col_judul:
         🧪 CHEM!GO
     </h1>
     <p style="font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; color: #444;">
-        Platform Terpercaya se-AKA Bogor 🧬⚡
+        Platform Terpercaya se-AKA Bogor 🧪⚡
     </p>
     """, unsafe_allow_html=True)
 with col_search:
     search_query = st.text_input(" ", "", placeholder="Cari produk...", label_visibility="collapsed")
 
-# Produk
 products = [
     {"name": "BEAKER GLASS 500ML", "price": 85000, "image": "https://microyntech.com/wp-content/uploads/2019/06/1101-500.jpg"},
     {"name": "BEAKER GLASS 100ML", "price": 50000, "image": "https://charlestonscientific.com.sg/wp-content/uploads/2021/10/Glassware-1_beaker-100ml.jpg"},
@@ -148,10 +149,8 @@ products = [
     {"name": "PIPET MOHR 10ML", "price": 75000, "image": "https://cdn7.bigcommerce.com/s-ufhcuzfxw9/images/stencil/1280x1280/products/11898/15926/CE-PIPEG10__90162.1503517941.jpg?c=2&imbypass=on"}
 ]
 
-# Filter pencarian
 filtered_products = [p for p in products if search_query.lower() in p["name"].lower()]
 
-# Tampilkan produk
 for i in range(0, len(filtered_products), 3):
     cols = st.columns(3)
     for idx, col in enumerate(cols):
@@ -162,15 +161,10 @@ for i in range(0, len(filtered_products), 3):
                 st.markdown(f"<h4 style='font-family: Orbitron, sans-serif;'>{p['name']}</h4>", unsafe_allow_html=True)
                 st.markdown(f"<p><b>Rp {p['price']:,}</b></p>", unsafe_allow_html=True)
                 if st.button("🛒 Beli Yuk!", key=f"buy_{i+idx}"):
-                    if not st.session_state.get("logged_in"):
-                        st.warning("Silakan login terlebih dahulu untuk membeli produk.")
-                        st.session_state["redirect_after_login"] = p  # Simpan produk untuk ditambahkan setelah login
-                        st.markdown("👉 [Klik di sini untuk login](?login=1)")
-                    else:
-                        st.session_state.cart.append(p)
-                        st.success(f"{p['name']} berhasil dimasukkan ke keranjang!")
+                    st.session_state.cart.append(p)
+                    st.success(f"{p['name']} berhasil dimasukkan ke keranjang!")
 
-# Keranjang
+# -------------------- CHECKOUT + TELEGRAM --------------------
 st.markdown("---")
 st.markdown("### 🧺 Keranjang Belanja Kamu:")
 total = 0
@@ -185,13 +179,32 @@ if st.session_state.cart:
                 st.rerun()
         total += item["price"]
     st.markdown(f"**🧾 Total Belanja: Rp {total:,}**")
+
+    def send_telegram_message_to_admin(message):
+        bot_token = "8101821591:AAGU8_nNQcx8VqxkpAjWO2j079lrDrvjj9k"
+        chat_id = "8101821591"
+        url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+        payload = {"chat_id": chat_id, "text": message}
+        requests.post(url, data=payload)
+
+    if st.button("📟 Checkout Sekarang"):
+        username = st.session_state.get("username", "pengunjung")
+        pesan = f"📦 Pesanan Baru dari {username}:
+\n"
+        for item in st.session_state.cart:
+            pesan += f"- {item['name']} | Rp {item['price']:,}\n"
+        pesan += f"\n🧾 Total: Rp {total:,}\nSegera proses ya!"
+        send_telegram_message_to_admin(pesan)
+        st.success("✅ Checkout berhasil! Notifikasi terkirim ke Telegram kamu!")
+        st.session_state.cart = []
+        st.rerun()
 else:
     st.info("Keranjang kamu masih kosong. Yuk beli dulu! 💚")
 
-# Footer + WhatsApp
+# -------------------- FOOTER --------------------
 st.markdown("---")
 st.markdown(
-    '<p style="text-align:center; font-family:\'Orbitron\', sans-serif; font-size:1.1rem;">© 2025 CHEM!GO 🚀 — Marketplace Lab Tools Kekinian 🔬✨- POLITEKNIK AKA BOGOR </p>',
+    '<p style="text-align:center; font-family:\'Orbitron\', sans-serif; font-size:1.1rem;">\n    © 2025 CHEM!GO 🚀 — Marketplace Lab Tools Kekinian 🔬✨ - POLITEKNIK AKA BOGOR </p>',
     unsafe_allow_html=True
 )
 st.markdown("""
