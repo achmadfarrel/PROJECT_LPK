@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Konfigurasi halaman
-st.set_page_config(page_title="GreenMart - Marketplace", layout="wide", page_icon="🛒")
+st.set_page_config(page_title="CHEMIGO - Marketplace", layout="wide", page_icon="🛒")
 
 # CSS styling dengan font Orbitron + Space Grotesk
 st.markdown("""
@@ -59,7 +59,7 @@ st.markdown("""
     🧪 CHEM!GO
 </h1>
 <p style="font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; color: #444;">
-    Where science meets swag 🧬⚡
+    Platform Terpercaya se-AKA Bogor 🧬⚡
 </p>
 """, unsafe_allow_html=True)
 
