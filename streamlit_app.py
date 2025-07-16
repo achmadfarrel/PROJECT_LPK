@@ -3,7 +3,7 @@ import streamlit as st
 # Konfigurasi halaman
 st.set_page_config(page_title="GreenMart - Marketplace", layout="wide", page_icon="🛒")
 
-# CSS styling dengan font Orbitron + Space Grotesk + animasi keranjang
+# CSS styling + animasi + fonts Orbitron dan Space Grotesk
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -46,7 +46,7 @@ h1, h2 {
 .button:hover {
     background-color: #388e3c;
 }
-/* Floating cart */
+/* Floating cart icon */
 .cart-floating {
     position: fixed;
     top: 1.5rem;
@@ -73,11 +73,18 @@ h1, h2 {
 </style>
 """, unsafe_allow_html=True)
 
-# Inisialisasi keranjang belanja
+# Inisialisasi session state
 if "cart" not in st.session_state:
     st.session_state.cart = []
 
-# Judul halaman versi Gen Z keren maksimal
+# Floating cart di kanan atas
+st.markdown(f"""
+<div class="cart-floating">
+    🛒 {len(st.session_state.cart)} item
+</div>
+""", unsafe_allow_html=True)
+
+# Judul halaman
 st.markdown("""
 <h1 style="font-family: 'Orbitron', sans-serif; font-size: 3.5rem; color: #1b5e20; margin-bottom: 0.2rem;">
     🧪 CHEM!GO
@@ -98,10 +105,10 @@ products = [
     {"name": "ERLENMEYER 100ML", "price": "Rp 80.000", "price_int": 80000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
     {"name": "ERLENMEYER 50ML", "price": "Rp 70.000", "price_int": 70000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
     {"name": "PIPET MOHR 5ML", "price": "Rp 70.000", "price_int": 70000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
-    {"name": "PIPET MOHR 10ML", "price": "Rp 75.000", "price_int": 75000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"}
+    {"name": "PIPET MOHR 10ML", "price": "Rp 75.000", "price_int": 75000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
 ]
 
-# Tampilkan produk dalam 3 kolom per baris
+# Tampilkan produk dalam 3 kolom
 for i in range(0, len(products), 3):
     cols = st.columns(3)
     for idx, col in enumerate(cols):
@@ -115,13 +122,6 @@ for i in range(0, len(products), 3):
                     st.session_state.cart.append(p)
                     st.success(f"{p['name']} berhasil dimasukkan ke keranjang!")
 
-# Tampilkan ikon keranjang belanja (setelah penambahan)
-st.markdown(f"""
-<div class="cart-floating">
-    🛒 {len(st.session_state.cart)} item
-</div>
-""", unsafe_allow_html=True)
-
 # Divider
 st.markdown("---")
 
@@ -129,20 +129,24 @@ st.markdown("---")
 st.markdown("### 🧺 Keranjang Belanja Kamu:")
 total = 0
 if st.session_state.cart:
+    items_to_remove = []
     for idx, item in enumerate(st.session_state.cart):
-        col1, col2 = st.columns([4, 1])
+        col1, col2 = st.columns([5, 1])
         with col1:
-            st.markdown(f"- **{item['name']}** - {item['price']}")
+            st.markdown(f"- **{item['name']}** — {item['price']}")
         with col2:
             if st.button("❌", key=f"remove_{idx}"):
-                st.session_state.cart.pop(idx)
-                st.experimental_rerun()
+                items_to_remove.append(idx)
         total += item["price_int"]
-    st.markdown(f"**Total Belanja: Rp {total:,.0f}**")
+    
+    for idx in sorted(items_to_remove, reverse=True):
+        del st.session_state.cart[idx]
+
+    st.markdown(f"**💸 Total Belanja: Rp {total:,.0f}**")
 else:
     st.info("Keranjang kamu masih kosong. Yuk beli dulu! 💚")
 
-# Footer gaya Gen Z
+# Footer
 st.markdown("---")
 st.markdown(
     '<p style="text-align:center; font-family:\'Orbitron\', sans-serif; font-size:1.1rem;">© 2025 CHEM!GO 🚀 — Marketplace Lab Tools Kekinian 🔬✨</p>',
