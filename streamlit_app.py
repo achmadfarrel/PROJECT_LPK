@@ -2,12 +2,11 @@ import streamlit as st
 import json
 import os
 
-# -------------------- KONFIGURASI HALAMAN --------------------
+# -------------------- KONFIGURASI --------------------
 st.set_page_config(page_title="CHEMIGO - Marketplace", layout="wide", page_icon="🛒")
-
-# -------------------- LOGIN & REGISTER --------------------
 USER_DATA_FILE = "users.json"
 
+# -------------------- AUTENTIKASI --------------------
 def load_users():
     if os.path.exists(USER_DATA_FILE):
         with open(USER_DATA_FILE, "r") as f:
@@ -30,11 +29,11 @@ def login_page():
             st.session_state["logged_in"] = True
             st.session_state["username"] = username
             st.success("Login berhasil! Selamat datang, " + username)
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("Username atau password salah!")
 
-    st.markdown("Belum punya akun? 👉 [Register di sini](#register)")
+    st.markdown("Belum punya akun? 👉 [Register di sini](?register=1)")
 
 def register_page():
     st.markdown("## ✍️ Register Akun Baru")
@@ -49,11 +48,11 @@ def register_page():
         else:
             save_user(new_user, new_pass)
             st.success("Registrasi berhasil! Silakan login.")
-            st.experimental_set_query_params()
-            st.experimental_rerun()
+            st.query_params.clear()
+            st.rerun()
 
-# Pilih login atau register
-query_params = st.experimental_get_query_params()
+# -------------------- ARAH HALAMAN --------------------
+query_params = st.query_params
 if "register" in query_params:
     register_page()
     st.stop()
@@ -64,7 +63,7 @@ elif "logged_in" not in st.session_state or not st.session_state["logged_in"]:
 # Tombol logout
 if st.sidebar.button("Logout"):
     st.session_state.logged_in = False
-    st.experimental_rerun()
+    st.rerun()
 
 # -------------------- STYLING --------------------
 st.markdown("""
@@ -85,7 +84,6 @@ h1, h2 {
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     text-align: center;
     margin-bottom: 1rem;
-    font-family: 'Space Grotesk', sans-serif;
 }
 .card img {
     max-width: 100%;
@@ -104,7 +102,6 @@ h1, h2 {
     border-radius: 0.5rem;
     font-size: 0.9rem;
     cursor: pointer;
-    font-family: 'Space Grotesk', sans-serif;
 }
 .button:hover {
     background-color: #388e3c;
@@ -112,7 +109,7 @@ h1, h2 {
 </style>
 """, unsafe_allow_html=True)
 
-# -------------------- HALAMAN UTAMA --------------------
+# -------------------- ISI HALAMAN --------------------
 if "cart" not in st.session_state:
     st.session_state.cart = []
 
@@ -127,11 +124,10 @@ with col_judul:
         Platform Terpercaya se-AKA Bogor 🧬⚡
     </p>
     """, unsafe_allow_html=True)
-
 with col_search:
     search_query = st.text_input(" ", "", placeholder="Cari produk...", label_visibility="collapsed")
 
-# Data produk
+# Produk
 products = [
     {"name": "BEAKER GLASS 500ML", "price": 85000, "image": "https://microyntech.com/wp-content/uploads/2019/06/1101-500.jpg"},
     {"name": "BEAKER GLASS 100ML", "price": 50000, "image": "https://charlestonscientific.com.sg/wp-content/uploads/2021/10/Glassware-1_beaker-100ml.jpg"},
@@ -174,20 +170,19 @@ if st.session_state.cart:
         with col2:
             if st.button("❌", key=f"remove_{idx}"):
                 del st.session_state.cart[idx - 1]
-                st.stop()
+                st.rerun()
         total += item["price"]
     st.markdown(f"**🧾 Total Belanja: Rp {total:,}**")
 else:
     st.info("Keranjang kamu masih kosong. Yuk beli dulu! 💚")
 
-# Footer
+# Footer + WhatsApp
 st.markdown("---")
 st.markdown(
     '<p style="text-align:center; font-family:\'Orbitron\', sans-serif; font-size:1.1rem;">© 2025 CHEM!GO 🚀 — Marketplace Lab Tools Kekinian 🔬✨- POLITEKNIK AKA BOGOR </p>',
     unsafe_allow_html=True
 )
 
-# WhatsApp Bubble
 st.markdown("""
 <div style="position: fixed; bottom: 25px; right: 25px; z-index: 100; display: flex; align-items: center;">
     <a href="https://wa.me/62895609627802?text=Halo%20CHEM!GO%2C%20saya%20mau%20bertanya%20tentang%20produk%20laboratorium." target="_blank" style="text-decoration: none; display: flex; align-items: center;">
