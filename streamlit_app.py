@@ -77,7 +77,7 @@ h1, h2 {
 if "cart" not in st.session_state:
     st.session_state.cart = []
 
-# Cart Icon Floating (dengan jumlah item)
+# Cart Icon Floating
 st.markdown(f"""
 <div class="cart-floating">
     🛒 {len(st.session_state.cart)} item
@@ -125,10 +125,18 @@ for i in range(0, len(products), 3):
 # Divider
 st.markdown("---")
 
-# Tampilkan isi keranjang + tombol hapus & kosongkan semua
+# Keranjang belanja & total
 st.markdown("### 🧺 Keranjang Belanja Kamu:")
 if st.session_state.cart:
+    total = 0
     for i, item in enumerate(st.session_state.cart):
+        price_str = item['price'].replace("Rp", "").replace(".", "").strip()
+        try:
+            price = int(price_str)
+            total += price
+        except ValueError:
+            price = 0
+
         col1, col2 = st.columns([5, 1])
         with col1:
             st.markdown(f"- **{item['name']}** - {item['price']}")
@@ -137,14 +145,15 @@ if st.session_state.cart:
                 st.session_state.cart.pop(i)
                 st.experimental_rerun()
 
-    st.markdown("### ")
+    st.markdown(f"### 💰 Total: **Rp {total:,.0f}**".replace(",", "."))
+
     if st.button("🧹 Kosongkan Semua Keranjang"):
         st.session_state.cart.clear()
         st.experimental_rerun()
 else:
     st.info("Keranjang kamu masih kosong. Yuk beli dulu! 💚")
 
-# Footer gaya Gen Z
+# Footer
 st.markdown("---")
 st.markdown(
     '<p style="text-align:center; font-family:\'Orbitron\', sans-serif; font-size:1.1rem;">© 2025 CHEM!GO 🚀 — Marketplace Lab Tools Kekinian 🔬✨</p>',
