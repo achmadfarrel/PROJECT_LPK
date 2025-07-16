@@ -3,7 +3,7 @@ import streamlit as st
 # Konfigurasi halaman
 st.set_page_config(page_title="GreenMart - Marketplace", layout="wide", page_icon="🛒")
 
-# CSS styling dengan font Orbitron + Space Grotesk
+# CSS styling dengan font Orbitron + Space Grotesk + animasi keranjang
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -46,7 +46,42 @@ h1, h2 {
 .button:hover {
     background-color: #388e3c;
 }
+/* Floating cart */
+.cart-floating {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    background-color: #2e7d32;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    z-index: 9999;
+    animation: wiggle 1.5s infinite;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+@keyframes wiggle {
+  0% { transform: rotate(0deg); }
+  15% { transform: rotate(-10deg); }
+  30% { transform: rotate(10deg); }
+  45% { transform: rotate(-10deg); }
+  60% { transform: rotate(10deg); }
+  75% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+}
 </style>
+""", unsafe_allow_html=True)
+
+# Inisialisasi keranjang belanja
+if "cart" not in st.session_state:
+    st.session_state.cart = []
+
+# Cart Icon Floating (dengan jumlah item)
+st.markdown(f"""
+<div class="cart-floating">
+    🛒 {len(st.session_state.cart)} item
+</div>
 """, unsafe_allow_html=True)
 
 # Judul halaman versi Gen Z keren maksimal
@@ -59,62 +94,18 @@ st.markdown("""
 </p>
 """, unsafe_allow_html=True)
 
-# Inisialisasi keranjang belanja
-if "cart" not in st.session_state:
-    st.session_state.cart = []
-
 # Data produk
 products = [
-    {
-        "name": "GELAS PIALA 500ML",
-        "price": "Rp 85.000",
-        "image": "https://images.unsplash.com/photo-1612197551535-e6d1f6e251d5?auto=format&fit=crop&w=500&q=60"
-    },
-    {
-        "name": "BEAKER GLASS 100ML",
-        "price": "Rp 50.000",
-        "image": "https://images.unsplash.com/photo-1598032896325-5a50efc8aeb1?auto=format&fit=crop&w=500&q=60"
-    },
-    {
-        "name": "BEAKER GLASS 250ML",
-        "price": "Rp 60.000",
-        "image": "https://images.unsplash.com/photo-1604668915840-e4f064790ebc?auto=format&fit=crop&w=500&q=60"
-    },
-    {
-        "name": "PIPET VOLUME 10ML",
-        "price": "Rp 95.000",
-        "image": "https://images.unsplash.com/photo-1589927986089-35812388d1a2?auto=format&fit=crop&w=500&q=60"
-    },
-    {
-        "name": "PIPET VOLUME 25ML",
-        "price": "Rp 135.000",
-        "image": "https://images.unsplash.com/photo-1589571894960-20bbe2828fa8?auto=format&fit=crop&w=500&q=60"
-    },
-    {
-        "name": "ERLENMEYER 250ML",
-        "price": "Rp 80.000",
-        "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"
-    },
-    {
-        "name": "ERLENMEYER 100ML",
-        "price": "Rp 80.000",
-        "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"
-    },
-    {
-        "name": "ERLENMEYER 50ML",
-        "price": "Rp 70.000",
-        "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"
-    },
-    {
-        "name": "PIPET MOHR 5ML",
-        "price": "Rp 70.000",
-        "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"
-    },
-    {
-        "name": "PIPET MOHR 10ML",
-        "price": "Rp 75.000",
-        "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"
-    }
+    {"name": "GELAS PIALA 500ML", "price": "Rp 85.000", "image": "https://images.unsplash.com/photo-1612197551535-e6d1f6e251d5?auto=format&fit=crop&w=500&q=60"},
+    {"name": "BEAKER GLASS 100ML", "price": "Rp 50.000", "image": "https://images.unsplash.com/photo-1598032896325-5a50efc8aeb1?auto=format&fit=crop&w=500&q=60"},
+    {"name": "BEAKER GLASS 250ML", "price": "Rp 60.000", "image": "https://images.unsplash.com/photo-1604668915840-e4f064790ebc?auto=format&fit=crop&w=500&q=60"},
+    {"name": "PIPET VOLUME 10ML", "price": "Rp 95.000", "image": "https://images.unsplash.com/photo-1589927986089-35812388d1a2?auto=format&fit=crop&w=500&q=60"},
+    {"name": "PIPET VOLUME 25ML", "price": "Rp 135.000", "image": "https://images.unsplash.com/photo-1589571894960-20bbe2828fa8?auto=format&fit=crop&w=500&q=60"},
+    {"name": "ERLENMEYER 250ML", "price": "Rp 80.000", "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
+    {"name": "ERLENMEYER 100ML", "price": "Rp 80.000", "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
+    {"name": "ERLENMEYER 50ML", "price": "Rp 70.000", "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
+    {"name": "PIPET MOHR 5ML", "price": "Rp 70.000", "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
+    {"name": "PIPET MOHR 10ML", "price": "Rp 75.000", "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"}
 ]
 
 # Tampilkan produk dalam 3 kolom per baris
