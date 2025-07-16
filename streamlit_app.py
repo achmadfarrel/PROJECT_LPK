@@ -3,11 +3,13 @@ import streamlit as st
 # Konfigurasi halaman
 st.set_page_config(page_title="GreenMart - Marketplace", layout="wide", page_icon="🛒")
 
-# CSS untuk styling hijau & modern
+# CSS untuk styling hijau & modern dengan font menarik (Google Fonts)
 st.markdown("""
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 <style>
 body {
     background-color: #f4fdf5;
+    font-family: 'Poppins', sans-serif;
 }
 h1, h2 {
     color: #2e7d32;
@@ -19,6 +21,7 @@ h1, h2 {
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     text-align: center;
     margin-bottom: 1rem;
+    font-family: 'Poppins', sans-serif;
 }
 .card img {
     max-width: 100%;
@@ -46,7 +49,7 @@ h1, h2 {
 st.title("🛍️ CHEMIGO ")
 st.subheader("Lab tools, one click away 🌿")
 
-# Data produk dummy
+# Data produk
 products = [
     {
         "name": "GELAS PIALA 500ML",
@@ -86,17 +89,18 @@ products = [
     {
         "name": "ERLENMEYER 50ML",
         "price": "Rp 70.000",
-        "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60
-     },
-     {
+        "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"
+    },
+    {
         "name": "PIPET MOHR 5ML",
         "price": "Rp 70.000",
-        "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60""  
-     },
-     {
-        "name": "PIPET MOHR 5ML",
-        "price": "Rp 70.000",
-        "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60""
+        "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"
+    },
+    {
+        "name": "PIPET MOHR 10ML",
+        "price": "Rp 75.000",
+        "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"
+    }
 ]
 
 # Tampilkan produk dalam 3 kolom per baris
