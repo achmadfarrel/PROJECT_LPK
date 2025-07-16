@@ -117,3 +117,10 @@ st.markdown(
     '<p style="text-align:center; font-family:\'Orbitron\', sans-serif; font-size:1.1rem;">© 2025 CHEM!GO 🚀 — Marketplace Lab Tools Kekinian 🔬✨- POLITEKNIK AKA BOGOR </p>',
     unsafe_allow_html=True
 )
+
+# WhatsApp bubble
+st.markdown("""
+<a href="https://wa.me/6281234567890" target="_blank" style="position: fixed; bottom: 25px; right: 25px; z-index: 100;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="55" height="55" style="border-radius:50%;">
+</a>
+""", unsafe_allow_html=True)
