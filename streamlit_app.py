@@ -53,7 +53,7 @@ h1, h2 {
 if "cart" not in st.session_state:
     st.session_state.cart = []
 
-# Judul halaman
+# Judul halaman versi Gen Z keren maksimal
 st.markdown("""
 <h1 style="font-family: 'Orbitron', sans-serif; font-size: 3.5rem; color: #1b5e20; margin-bottom: 0.2rem;">
     🧪 CHEM!GO
@@ -77,7 +77,7 @@ products = [
     {"name": "PIPET MOHR 10ML", "price": 75000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"}
 ]
 
-# Tampilkan produk
+# Tampilkan produk dalam 3 kolom per baris
 for i in range(0, len(products), 3):
     cols = st.columns(3)
     for idx, col in enumerate(cols):
@@ -89,11 +89,12 @@ for i in range(0, len(products), 3):
                 st.markdown(f"<p><b>Rp {p['price']:,}</b></p>", unsafe_allow_html=True)
                 if st.button("🛒 Beli Yuk!", key=f"buy_{i+idx}"):
                     st.session_state.cart.append(p)
+                    st.success(f"{p['name']} berhasil dimasukkan ke keranjang!")
 
 # Divider
 st.markdown("---")
 
-# Tampilkan keranjang
+# Tampilkan isi keranjang
 st.markdown("### 🧺 Keranjang Belanja Kamu:")
 total = 0
 if st.session_state.cart:
@@ -103,14 +104,14 @@ if st.session_state.cart:
             st.markdown(f"{idx}. **{item['name']}** - Rp {item['price']:,}")
         with col2:
             if st.button("❌", key=f"remove_{idx}"):
-                st.session_state.cart.pop(idx - 1)
-                st.experimental_rerun()
-        total += item['price']
+                del st.session_state.cart[idx - 1]
+                st.stop()
+        total += item["price"]
     st.markdown(f"**🧾 Total Belanja: Rp {total:,}**")
 else:
     st.info("Keranjang kamu masih kosong. Yuk beli dulu! 💚")
 
-# Footer
+# Footer gaya Gen Z
 st.markdown("---")
 st.markdown(
     '<p style="text-align:center; font-family:\'Orbitron\', sans-serif; font-size:1.1rem;">© 2025 CHEM!GO 🚀 — Marketplace Lab Tools Kekinian 🔬✨</p>',
