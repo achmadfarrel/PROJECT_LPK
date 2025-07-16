@@ -3,16 +3,17 @@ import streamlit as st
 # Konfigurasi halaman
 st.set_page_config(page_title="GreenMart - Marketplace", layout="wide", page_icon="🛒")
 
-# CSS untuk styling hijau & modern dengan font menarik (Google Fonts)
+# CSS styling + Font Estetik
 st.markdown("""
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 <style>
 body {
     background-color: #f4fdf5;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Quicksand', sans-serif;
 }
 h1, h2 {
     color: #2e7d32;
+    font-family: 'Playfair Display', serif;
 }
 .card {
     background-color: white;
@@ -21,7 +22,7 @@ h1, h2 {
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     text-align: center;
     margin-bottom: 1rem;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Quicksand', sans-serif;
 }
 .card img {
     max-width: 100%;
@@ -29,6 +30,8 @@ h1, h2 {
 }
 .card h4 {
     margin: 0.5rem 0 0.3rem 0;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
 }
 .button {
     background-color: #4caf50;
@@ -38,6 +41,7 @@ h1, h2 {
     border-radius: 0.5rem;
     font-size: 0.9rem;
     cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
 }
 .button:hover {
     background-color: #388e3c;
@@ -45,8 +49,8 @@ h1, h2 {
 </style>
 """, unsafe_allow_html=True)
 
-# Judul
-st.title("🛍️ CHEMIGO ")
+# Judul halaman
+st.title("🛍️ CHEMIGO")
 st.subheader("Lab tools, one click away 🌿")
 
 # Data produk
@@ -81,7 +85,7 @@ products = [
         "price": "Rp 80.000",
         "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"
     },
-    { 
+    {
         "name": "ERLENMEYER 100ML",
         "price": "Rp 80.000",
         "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"
