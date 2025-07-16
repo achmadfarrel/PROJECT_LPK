@@ -3,7 +3,7 @@ import streamlit as st
 # Konfigurasi halaman
 st.set_page_config(page_title="GreenMart - Marketplace", layout="wide", page_icon="🛒")
 
-# CSS styling dengan font Orbitron + Space Grotesk + animasi keranjang
+# CSS styling dan animasi
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -46,7 +46,7 @@ h1, h2 {
 .button:hover {
     background-color: #388e3c;
 }
-/* Floating cart */
+/* Keranjang mengambang */
 .cart-floating {
     position: fixed;
     top: 1.5rem;
@@ -73,18 +73,18 @@ h1, h2 {
 </style>
 """, unsafe_allow_html=True)
 
-# Inisialisasi keranjang belanja
+# Inisialisasi session
 if "cart" not in st.session_state:
     st.session_state.cart = []
 
-# Cart Icon Floating
+# Cart mengambang kanan atas
 st.markdown(f"""
 <div class="cart-floating">
     🛒 {len(st.session_state.cart)} item
 </div>
 """, unsafe_allow_html=True)
 
-# Judul halaman
+# Header
 st.markdown("""
 <h1 style="font-family: 'Orbitron', sans-serif; font-size: 3.5rem; color: #1b5e20; margin-bottom: 0.2rem;">
     🧪 CHEM!GO
@@ -94,7 +94,7 @@ st.markdown("""
 </p>
 """, unsafe_allow_html=True)
 
-# Data produk
+# Produk
 products = [
     {"name": "BEAKER GLASS 500ML", "price": "Rp 85.000", "image": "https://images.unsplash.com/photo-1612197551535-e6d1f6e251d5?auto=format&fit=crop&w=500&q=60"},
     {"name": "BEAKER GLASS 100ML", "price": "Rp 50.000", "image": "https://images.unsplash.com/photo-1598032896325-5a50efc8aeb1?auto=format&fit=crop&w=500&q=60"},
@@ -108,7 +108,7 @@ products = [
     {"name": "PIPET MOHR 10ML", "price": "Rp 75.000", "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"}
 ]
 
-# Tampilkan produk dalam 3 kolom per baris
+# Tampilkan produk
 for i in range(0, len(products), 3):
     cols = st.columns(3)
     for idx, col in enumerate(cols):
@@ -125,33 +125,37 @@ for i in range(0, len(products), 3):
 # Divider
 st.markdown("---")
 
-# Keranjang belanja & total
+# Keranjang belanja
 st.markdown("### 🧺 Keranjang Belanja Kamu:")
-if st.session_state.cart:
-    total = 0
-    for i, item in enumerate(st.session_state.cart):
-        price_str = item['price'].replace("Rp", "").replace(".", "").strip()
-        try:
-            price = int(price_str)
-            total += price
-        except ValueError:
-            price = 0
+hapus_index = None
+total = 0
 
-        col1, col2 = st.columns([5, 1])
+if st.session_state.cart:
+    for i, item in enumerate(st.session_state.cart):
+        col1, col2 = st.columns([6, 1])
         with col1:
             st.markdown(f"- **{item['name']}** - {item['price']}")
         with col2:
-            if st.button("❌ Hapus", key=f"remove_{i}"):
-                st.session_state.cart.pop(i)
-                st.experimental_rerun()
+            if st.button("❌", key=f"remove_{i}"):
+                hapus_index = i
+        
+        # Tambah harga
+        try:
+            clean_price = item["price"].replace("Rp", "").replace(".", "").strip()
+            total += int(clean_price)
+        except:
+            pass
 
-    st.markdown(f"### 💰 Total: **Rp {total:,.0f}**".replace(",", "."))
+    # Total
+    st.markdown(f"**💰 Total: Rp {total:,.0f}**".replace(",", "."))
 
-    if st.button("🧹 Kosongkan Semua Keranjang"):
-        st.session_state.cart.clear()
-        st.experimental_rerun()
 else:
     st.info("Keranjang kamu masih kosong. Yuk beli dulu! 💚")
+
+# Hapus setelah loop
+if hapus_index is not None:
+    st.session_state.cart.pop(hapus_index)
+    st.experimental_rerun()
 
 # Footer
 st.markdown("---")
