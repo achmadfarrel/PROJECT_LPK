@@ -55,7 +55,7 @@ st.markdown("""
     🧪 CHEM!GO
 </h1>
 <p style="font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; color: #444;">
-    Where science meets swag 🧬⚡
+    Platform Transaksi Terbaik se-AKA Bogor 🧬⚡
 </p>
 """, unsafe_allow_html=True)
 
