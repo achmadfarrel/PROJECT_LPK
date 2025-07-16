@@ -49,35 +49,54 @@ st.subheader("Lab tools, one click away 🌿")
 # Data produk dummy
 products = [
     {
-        "name": "Tumbler Stainless",
-        "price": "Rp 45.000",
+        "name": "GELAS PIALA 500ML",
+        "price": "Rp 85.000",
         "image": "https://images.unsplash.com/photo-1612197551535-e6d1f6e251d5?auto=format&fit=crop&w=500&q=60"
     },
     {
-        "name": "Tas Daur Ulang",
-        "price": "Rp 60.000",
+        "name": "BEAKER GLASS 100ML",
+        "price": "Rp 50.000",
         "image": "https://images.unsplash.com/photo-1598032896325-5a50efc8aeb1?auto=format&fit=crop&w=500&q=60"
     },
     {
-        "name": "Sikat Bambu",
-        "price": "Rp 15.000",
+        "name": "BEAKER GLASS 250ML",
+        "price": "Rp 60.000",
         "image": "https://images.unsplash.com/photo-1604668915840-e4f064790ebc?auto=format&fit=crop&w=500&q=60"
     },
     {
-        "name": "Sabun Organik",
-        "price": "Rp 25.000",
+        "name": "PIPET VOLUME 10ML",
+        "price": "Rp 95.000",
         "image": "https://images.unsplash.com/photo-1589927986089-35812388d1a2?auto=format&fit=crop&w=500&q=60"
     },
     {
-        "name": "Sedotan Stainless",
-        "price": "Rp 10.000",
+        "name": "PIPET VOLUME 25ML",
+        "price": "Rp 135.000",
         "image": "https://images.unsplash.com/photo-1589571894960-20bbe2828fa8?auto=format&fit=crop&w=500&q=60"
     },
     {
-        "name": "Totebag Katun",
-        "price": "Rp 30.000",
+        "name": "ERLENMEYER 250ML",
+        "price": "Rp 80.000",
         "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"
     },
+    { 
+        "name": "ERLENMEYER 100ML",
+        "price": "Rp 80.000",
+        "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"
+    },
+    {
+        "name": "ERLENMEYER 50ML",
+        "price": "Rp 70.000",
+        "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60
+     },
+     {
+        "name": "PIPET MOHR 5ML",
+        "price": "Rp 70.000",
+        "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60""  
+     },
+     {
+        "name": "PIPET MOHR 5ML",
+        "price": "Rp 70.000",
+        "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60""
 ]
 
 # Tampilkan produk dalam 3 kolom per baris
