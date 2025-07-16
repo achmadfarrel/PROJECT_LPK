@@ -43,8 +43,8 @@ h1, h2 {
 """, unsafe_allow_html=True)
 
 # Judul
-st.title("🛍️ GreenMart")
-st.subheader("Marketplace Ramah Lingkungan 🌿")
+st.title("🛍️ CHEMIGO ")
+st.subheader("Lab tools, one click away 🌿")
 
 # Data produk dummy
 products = [
