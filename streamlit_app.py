@@ -55,9 +55,13 @@ st.markdown("""
     🧪 CHEM!GO
 </h1>
 <p style="font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; color: #444;">
-    Platform Transaksi Terbaik se-AKA Bogor 🧬⚡
+    Where science meets swag 🧬⚡
 </p>
 """, unsafe_allow_html=True)
+
+# Inisialisasi keranjang belanja
+if "cart" not in st.session_state:
+    st.session_state.cart = []
 
 # Data produk
 products = [
@@ -120,14 +124,23 @@ for i in range(0, len(products), 3):
         if i + idx < len(products):
             p = products[i + idx]
             with col:
-                st.markdown(f"""
-                <div class="card">
-                    <img src="{p['image']}" alt="{p['name']}">
-                    <h4>{p['name']}</h4>
-                    <p><b>{p['price']}</b></p>
-                    <button class="button">🛒 Beli Yuk!</button>
-                </div>
-                """, unsafe_allow_html=True)
+                st.image(p["image"], use_column_width=True)
+                st.markdown(f"<h4 style='font-family: Orbitron, sans-serif;'>{p['name']}</h4>", unsafe_allow_html=True)
+                st.markdown(f"<p><b>{p['price']}</b></p>", unsafe_allow_html=True)
+                if st.button("🛒 Beli Yuk!", key=f"buy_{i+idx}"):
+                    st.session_state.cart.append(p)
+                    st.success(f"{p['name']} berhasil dimasukkan ke keranjang!")
+
+# Divider
+st.markdown("---")
+
+# Tampilkan isi keranjang
+st.markdown("### 🧺 Keranjang Belanja Kamu:")
+if st.session_state.cart:
+    for item in st.session_state.cart:
+        st.markdown(f"- **{item['name']}** - {item['price']}")
+else:
+    st.info("Keranjang kamu masih kosong. Yuk beli dulu! 💚")
 
 # Footer gaya Gen Z
 st.markdown("---")
