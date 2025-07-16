@@ -7,7 +7,7 @@ import requests
 st.set_page_config(page_title="CHEMIGO - Marketplace", layout="wide", page_icon="🛒")
 USER_DATA_FILE = "users.json"
 TELEGRAM_BOT_TOKEN = "8101821591:AAFoQ7LCEkq7F1XGyxjAhpsUd4P6xI37WhE"
-TELEGRAM_CHAT_ID = "8101821591"
+TELEGRAM_CHAT_ID = "1490556477"
 
 # -------------------- AUTENTIKASI --------------------
 def load_users():
