@@ -3,17 +3,17 @@ import streamlit as st
 # Konfigurasi halaman
 st.set_page_config(page_title="GreenMart - Marketplace", layout="wide", page_icon="🛒")
 
-# CSS styling + Font Estetik
+# CSS styling + Font Gen Z (Bungee + Poppins)
 st.markdown("""
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
 body {
     background-color: #f4fdf5;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 h1, h2 {
     color: #2e7d32;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Bungee', cursive;
 }
 .card {
     background-color: white;
@@ -22,7 +22,7 @@ h1, h2 {
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     text-align: center;
     margin-bottom: 1rem;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 .card img {
     max-width: 100%;
@@ -30,7 +30,7 @@ h1, h2 {
 }
 .card h4 {
     margin: 0.5rem 0 0.3rem 0;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Bungee', cursive;
     font-weight: 700;
 }
 .button {
@@ -41,7 +41,7 @@ h1, h2 {
     border-radius: 0.5rem;
     font-size: 0.9rem;
     cursor: pointer;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 .button:hover {
     background-color: #388e3c;
@@ -119,10 +119,13 @@ for i in range(0, len(products), 3):
                     <img src="{p['image']}" alt="{p['name']}">
                     <h4>{p['name']}</h4>
                     <p><b>{p['price']}</b></p>
-                    <button class="button">Beli</button>
+                    <button class="button">🛒 Beli Yuk!</button>
                 </div>
                 """, unsafe_allow_html=True)
 
-# Footer
+# Footer gaya Gen Z
 st.markdown("---")
-st.caption("© 2025 GreenMart - Marketplace Hijau untuk Masa Depan 🌱")
+st.markdown(
+    '<p style="text-align:center; font-family:\'Bungee\', cursive; font-size:1.1rem;">© 2025 CHEMIGO 🚀 — Marketplace Lab Tools Kekinian 🔬✨</p>',
+    unsafe_allow_html=True
+)
