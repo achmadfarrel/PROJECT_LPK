@@ -70,9 +70,9 @@ products = [
     {"name": "BEAKER GLASS 250ML", "price": 60000, "image": "https://image.made-in-china.com/2f0j00ihQlwPCcbAfE/Laboratory-Glassware-Beaker-Borosilicate-Pyrex-Glass-Beaker-250ml-500ml-1000ml-Beaker-with-Graduations.jpg"},
     {"name": "PIPET VOLUME 10ML", "price": 95000, "image": "https://www.piwine.com/media/Products/VP10.jpg"},
     {"name": "PIPET VOLUME 25ML", "price": 135000, "image": "http://www.piwine.com/media/Products/VP25.jpg"},
-    {"name": "ERLENMEYER 250ML", "price": 80000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
-    {"name": "ERLENMEYER 100ML", "price": 80000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
-    {"name": "ERLENMEYER 50ML", "price": 70000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
+    {"name": "ERLENMEYER 250ML", "price": 80000, "image": "https://tse2.mm.bing.net/th/id/OIP.SreUacbKVedTlO7BFsxFpQAAAA?pid=Api&P=0&h=220"},
+    {"name": "ERLENMEYER 100ML", "price": 80000, "image": "https://tse2.mm.bing.net/th/id/OIP.T4JuL2Wy5LGHUfnN_Yt64QHaHa?pid=Api&P=0&h=220"},
+    {"name": "ERLENMEYER 50ML", "price": 70000, "image": "https://tse4.mm.bing.net/th/id/OIP.FFz9bCD0xOT4sZku4XRr8gHaHa?pid=Api&P=0&h=220"},
     {"name": "PIPET MOHR 5ML", "price": 70000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
     {"name": "PIPET MOHR 10ML", "price": 75000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"}
 ]
