@@ -67,7 +67,7 @@ st.markdown("""
 products = [
     {"name": "BEAKER GLASS 500ML", "price": 85000, "image": "https://microyntech.com/wp-content/uploads/2019/06/1101-500.jpg"},
     {"name": "BEAKER GLASS 100ML", "price": 50000, "image": "https://charlestonscientific.com.sg/wp-content/uploads/2021/10/Glassware-1_beaker-100ml.jpg"},
-    {"name": "BEAKER GLASS 250ML", "price": 60000, "image": "https://m.media-amazon.com/images/I/616jp4i23cL.jpg"},
+    {"name": "BEAKER GLASS 250ML", "price": 60000, "image": "https://image.made-in-china.com/2f0j00ihQlwPCcbAfE/Laboratory-Glassware-Beaker-Borosilicate-Pyrex-Glass-Beaker-250ml-500ml-1000ml-Beaker-with-Graduations.jpg"},
     {"name": "PIPET VOLUME 10ML", "price": 95000, "image": "https://www.piwine.com/media/Products/VP10.jpg"},
     {"name": "PIPET VOLUME 25ML", "price": 135000, "image": "http://www.piwine.com/media/Products/VP25.jpg"},
     {"name": "ERLENMEYER 250ML", "price": 80000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
