@@ -3,7 +3,7 @@ import streamlit as st
 # Konfigurasi halaman
 st.set_page_config(page_title="GreenMart - Marketplace", layout="wide", page_icon="🛒")
 
-# CSS styling dengan animasi & font Orbitron + Space Grotesk
+# CSS styling & animasi keranjang
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -46,7 +46,6 @@ h1, h2 {
 .button:hover {
     background-color: #388e3c;
 }
-/* Floating cart */
 .cart-floating {
     position: fixed;
     top: 1.5rem;
@@ -73,9 +72,16 @@ h1, h2 {
 </style>
 """, unsafe_allow_html=True)
 
-# Inisialisasi keranjang belanja
+# Inisialisasi keranjang
 if "cart" not in st.session_state:
     st.session_state.cart = []
+
+# Floating cart icon (pojok kanan atas)
+st.markdown(f"""
+<div class="cart-floating">
+    🛒 {len(st.session_state.cart)} item
+</div>
+""", unsafe_allow_html=True)
 
 # Judul halaman
 st.markdown("""
@@ -89,67 +95,49 @@ st.markdown("""
 
 # Data produk
 products = [
-    {"name": "BEAKER GLASS 500ML", "price": "Rp 85.000", "image": "https://images.unsplash.com/photo-1612197551535-e6d1f6e251d5?auto=format&fit=crop&w=500&q=60"},
-    {"name": "BEAKER GLASS 100ML", "price": "Rp 50.000", "image": "https://images.unsplash.com/photo-1598032896325-5a50efc8aeb1?auto=format&fit=crop&w=500&q=60"},
-    {"name": "BEAKER GLASS 250ML", "price": "Rp 60.000", "image": "https://images.unsplash.com/photo-1604668915840-e4f064790ebc?auto=format&fit=crop&w=500&q=60"},
-    {"name": "PIPET VOLUME 10ML", "price": "Rp 95.000", "image": "https://images.unsplash.com/photo-1589927986089-35812388d1a2?auto=format&fit=crop&w=500&q=60"},
-    {"name": "PIPET VOLUME 25ML", "price": "Rp 135.000", "image": "https://images.unsplash.com/photo-1589571894960-20bbe2828fa8?auto=format&fit=crop&w=500&q=60"},
-    {"name": "ERLENMEYER 250ML", "price": "Rp 80.000", "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
-    {"name": "ERLENMEYER 100ML", "price": "Rp 80.000", "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
-    {"name": "ERLENMEYER 50ML", "price": "Rp 70.000", "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
-    {"name": "PIPET MOHR 5ML", "price": "Rp 70.000", "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
-    {"name": "PIPET MOHR 10ML", "price": "Rp 75.000", "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"}
+    {"name": "BEAKER GLASS 500ML", "price": "Rp 85.000", "price_int": 85000, "image": "https://images.unsplash.com/photo-1612197551535-e6d1f6e251d5?auto=format&fit=crop&w=500&q=60"},
+    {"name": "BEAKER GLASS 100ML", "price": "Rp 50.000", "price_int": 50000, "image": "https://images.unsplash.com/photo-1598032896325-5a50efc8aeb1?auto=format&fit=crop&w=500&q=60"},
+    {"name": "BEAKER GLASS 250ML", "price": "Rp 60.000", "price_int": 60000, "image": "https://images.unsplash.com/photo-1604668915840-e4f064790ebc?auto=format&fit=crop&w=500&q=60"},
+    {"name": "PIPET VOLUME 10ML", "price": "Rp 95.000", "price_int": 95000, "image": "https://images.unsplash.com/photo-1589927986089-35812388d1a2?auto=format&fit=crop&w=500&q=60"},
+    {"name": "PIPET VOLUME 25ML", "price": "Rp 135.000", "price_int": 135000, "image": "https://images.unsplash.com/photo-1589571894960-20bbe2828fa8?auto=format&fit=crop&w=500&q=60"},
+    {"name": "ERLENMEYER 250ML", "price": "Rp 80.000", "price_int": 80000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
 ]
 
-# Tampilkan produk dalam 3 kolom per baris
+# Tampilkan produk
 for i in range(0, len(products), 3):
     cols = st.columns(3)
-    for idx, col in enumerate(cols):
-        if i + idx < len(products):
-            p = products[i + idx]
+    for j, col in enumerate(cols):
+        index = i + j
+        if index < len(products):
+            p = products[index]
             with col:
                 st.image(p["image"], use_column_width=True)
                 st.markdown(f"<h4 style='font-family: Orbitron, sans-serif;'>{p['name']}</h4>", unsafe_allow_html=True)
                 st.markdown(f"<p><b>{p['price']}</b></p>", unsafe_allow_html=True)
-                if st.button("🛒 Beli Yuk!", key=f"buy_{i+idx}"):
+                if st.button("🛒 Beli Yuk!", key=f"buy_{index}"):
                     st.session_state.cart.append(p)
-                    st.success(f"{p['name']} berhasil dimasukkan ke keranjang!")
+                    st.success(f"{p['name']} ditambahkan ke keranjang!")
 
 # Divider
 st.markdown("---")
 
 # Tampilkan isi keranjang
 st.markdown("### 🧺 Keranjang Belanja Kamu:")
+total_price = 0
 if st.session_state.cart:
-    total = 0
-    for idx, item in enumerate(st.session_state.cart):
-        st.markdown(f"- **{item['name']}** - {item['price']}")
-        if st.button(f"Hapus ❌", key=f"remove_{idx}"):
-            del st.session_state.cart[idx]
-            st.experimental_rerun()
-
-    # Hitung total belanja
-    for item in st.session_state.cart:
-        try:
-            clean_price = int(item["price"].replace("Rp", "").replace(".", "").strip())
-            total += clean_price
-        except:
-            pass
-    st.markdown(f"**💰 Total Belanja: Rp {total:,.0f}**".replace(",", "."))
-
-    # Tombol hapus semua
-    if st.button("🗑️ Kosongkan Keranjang"):
-        st.session_state.cart.clear()
-        st.success("Keranjang berhasil dikosongkan!")
+    for i, item in enumerate(st.session_state.cart):
+        cols = st.columns([6, 2])
+        with cols[0]:
+            st.markdown(f"- **{item['name']}** - {item['price']}")
+        with cols[1]:
+            if st.button("❌ Hapus", key=f"remove_{i}"):
+                st.session_state.cart.pop(i)
+                st.experimental_set_query_params()  # Trick to "refresh"
+                st.stop()
+        total_price += item["price_int"]
+    st.markdown(f"**🧾 Total Belanja: Rp {total_price:,.0f}**")
 else:
     st.info("Keranjang kamu masih kosong. Yuk beli dulu! 💚")
-
-# Floating cart icon AKHIR (jumlah akurat)
-st.markdown(f"""
-<div class="cart-floating">
-    🛒 {len(st.session_state.cart)} item
-</div>
-""", unsafe_allow_html=True)
 
 # Footer
 st.markdown("---")
