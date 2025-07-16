@@ -77,14 +77,7 @@ h1, h2 {
 if "cart" not in st.session_state:
     st.session_state.cart = []
 
-# Floating Cart Icon
-st.markdown(f"""
-<div class="cart-floating">
-    🛒 {len(st.session_state.cart)} item
-</div>
-""", unsafe_allow_html=True)
-
-# Judul Halaman
+# Judul halaman versi Gen Z keren maksimal
 st.markdown("""
 <h1 style="font-family: 'Orbitron', sans-serif; font-size: 3.5rem; color: #1b5e20; margin-bottom: 0.2rem;">
     🧪 CHEM!GO
@@ -96,19 +89,19 @@ st.markdown("""
 
 # Data produk
 products = [
-    {"name": "BEAKER GLASS 500ML", "price": "Rp 85.000", "image": "https://images.unsplash.com/photo-1612197551535-e6d1f6e251d5?auto=format&fit=crop&w=500&q=60"},
-    {"name": "BEAKER GLASS 100ML", "price": "Rp 50.000", "image": "https://images.unsplash.com/photo-1598032896325-5a50efc8aeb1?auto=format&fit=crop&w=500&q=60"},
-    {"name": "BEAKER GLASS 250ML", "price": "Rp 60.000", "image": "https://images.unsplash.com/photo-1604668915840-e4f064790ebc?auto=format&fit=crop&w=500&q=60"},
-    {"name": "PIPET VOLUME 10ML", "price": "Rp 95.000", "image": "https://images.unsplash.com/photo-1589927986089-35812388d1a2?auto=format&fit=crop&w=500&q=60"},
-    {"name": "PIPET VOLUME 25ML", "price": "Rp 135.000", "image": "https://images.unsplash.com/photo-1589571894960-20bbe2828fa8?auto=format&fit=crop&w=500&q=60"},
-    {"name": "ERLENMEYER 250ML", "price": "Rp 80.000", "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
-    {"name": "ERLENMEYER 100ML", "price": "Rp 80.000", "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
-    {"name": "ERLENMEYER 50ML", "price": "Rp 70.000", "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
-    {"name": "PIPET MOHR 5ML", "price": "Rp 70.000", "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
-    {"name": "PIPET MOHR 10ML", "price": "Rp 75.000", "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"}
+    {"name": "BEAKER GLASS 500ML", "price": "Rp 85.000", "price_int": 85000, "image": "https://images.unsplash.com/photo-1612197551535-e6d1f6e251d5?auto=format&fit=crop&w=500&q=60"},
+    {"name": "BEAKER GLASS 100ML", "price": "Rp 50.000", "price_int": 50000, "image": "https://images.unsplash.com/photo-1598032896325-5a50efc8aeb1?auto=format&fit=crop&w=500&q=60"},
+    {"name": "BEAKER GLASS 250ML", "price": "Rp 60.000", "price_int": 60000, "image": "https://images.unsplash.com/photo-1604668915840-e4f064790ebc?auto=format&fit=crop&w=500&q=60"},
+    {"name": "PIPET VOLUME 10ML", "price": "Rp 95.000", "price_int": 95000, "image": "https://images.unsplash.com/photo-1589927986089-35812388d1a2?auto=format&fit=crop&w=500&q=60"},
+    {"name": "PIPET VOLUME 25ML", "price": "Rp 135.000", "price_int": 135000, "image": "https://images.unsplash.com/photo-1589571894960-20bbe2828fa8?auto=format&fit=crop&w=500&q=60"},
+    {"name": "ERLENMEYER 250ML", "price": "Rp 80.000", "price_int": 80000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
+    {"name": "ERLENMEYER 100ML", "price": "Rp 80.000", "price_int": 80000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
+    {"name": "ERLENMEYER 50ML", "price": "Rp 70.000", "price_int": 70000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
+    {"name": "PIPET MOHR 5ML", "price": "Rp 70.000", "price_int": 70000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"},
+    {"name": "PIPET MOHR 10ML", "price": "Rp 75.000", "price_int": 75000, "image": "https://images.unsplash.com/photo-1598032895446-0ff978646cb4?auto=format&fit=crop&w=500&q=60"}
 ]
 
-# Tampilkan produk dalam 3 kolom
+# Tampilkan produk dalam 3 kolom per baris
 for i in range(0, len(products), 3):
     cols = st.columns(3)
     for idx, col in enumerate(cols):
@@ -122,28 +115,30 @@ for i in range(0, len(products), 3):
                     st.session_state.cart.append(p)
                     st.success(f"{p['name']} berhasil dimasukkan ke keranjang!")
 
+# Tampilkan ikon keranjang belanja (setelah penambahan)
+st.markdown(f"""
+<div class="cart-floating">
+    🛒 {len(st.session_state.cart)} item
+</div>
+""", unsafe_allow_html=True)
+
 # Divider
 st.markdown("---")
 
 # Tampilkan isi keranjang
 st.markdown("### 🧺 Keranjang Belanja Kamu:")
-
-# Fungsi parse harga
-def parse_price(price_str):
-    return int(price_str.replace("Rp", "").replace(".", "").strip())
-
 total = 0
 if st.session_state.cart:
-    for i, item in enumerate(st.session_state.cart):
-        col1, col2 = st.columns([8, 1])
+    for idx, item in enumerate(st.session_state.cart):
+        col1, col2 = st.columns([4, 1])
         with col1:
             st.markdown(f"- **{item['name']}** - {item['price']}")
         with col2:
-            if st.button("❌", key=f"hapus_{i}"):
-                st.session_state.cart.pop(i)
-                break
-    total = sum(parse_price(item["price"]) for item in st.session_state.cart)
-    st.markdown(f"**🧾 Total Belanja: Rp {total:,.0f}**".replace(",", "."))  # format Rp 100.000
+            if st.button("❌", key=f"remove_{idx}"):
+                st.session_state.cart.pop(idx)
+                st.experimental_rerun()
+        total += item["price_int"]
+    st.markdown(f"**Total Belanja: Rp {total:,.0f}**")
 else:
     st.info("Keranjang kamu masih kosong. Yuk beli dulu! 💚")
 
