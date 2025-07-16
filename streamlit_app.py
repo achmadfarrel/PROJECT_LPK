@@ -1,9 +1,72 @@
 import streamlit as st
+import json
+import os
 
-# Konfigurasi halaman
+# -------------------- KONFIGURASI HALAMAN --------------------
 st.set_page_config(page_title="CHEMIGO - Marketplace", layout="wide", page_icon="🛒")
 
-# CSS styling dengan font Orbitron + Space Grotesk
+# -------------------- LOGIN & REGISTER --------------------
+USER_DATA_FILE = "users.json"
+
+def load_users():
+    if os.path.exists(USER_DATA_FILE):
+        with open(USER_DATA_FILE, "r") as f:
+            return json.load(f)
+    return {}
+
+def save_user(username, password):
+    users = load_users()
+    users[username] = password
+    with open(USER_DATA_FILE, "w") as f:
+        json.dump(users, f)
+
+def login_page():
+    st.markdown("## 🔐 Login CHEM!GO")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.button("Login"):
+        users = load_users()
+        if username in users and users[username] == password:
+            st.session_state["logged_in"] = True
+            st.session_state["username"] = username
+            st.success("Login berhasil! Selamat datang, " + username)
+            st.experimental_rerun()
+        else:
+            st.error("Username atau password salah!")
+
+    st.markdown("Belum punya akun? 👉 [Register di sini](#register)")
+
+def register_page():
+    st.markdown("## ✍️ Register Akun Baru")
+    new_user = st.text_input("Buat Username")
+    new_pass = st.text_input("Buat Password", type="password")
+    confirm_pass = st.text_input("Ulangi Password", type="password")
+    if st.button("Daftar"):
+        if new_pass != confirm_pass:
+            st.warning("Password tidak cocok.")
+        elif new_user in load_users():
+            st.error("Username sudah terdaftar.")
+        else:
+            save_user(new_user, new_pass)
+            st.success("Registrasi berhasil! Silakan login.")
+            st.experimental_set_query_params()
+            st.experimental_rerun()
+
+# Pilih login atau register
+query_params = st.experimental_get_query_params()
+if "register" in query_params:
+    register_page()
+    st.stop()
+elif "logged_in" not in st.session_state or not st.session_state["logged_in"]:
+    login_page()
+    st.stop()
+
+# Tombol logout
+if st.sidebar.button("Logout"):
+    st.session_state.logged_in = False
+    st.experimental_rerun()
+
+# -------------------- STYLING --------------------
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -49,7 +112,7 @@ h1, h2 {
 </style>
 """, unsafe_allow_html=True)
 
-# Inisialisasi keranjang belanja
+# -------------------- HALAMAN UTAMA --------------------
 if "cart" not in st.session_state:
     st.session_state.cart = []
 
@@ -82,10 +145,10 @@ products = [
     {"name": "PIPET MOHR 10ML", "price": 75000, "image": "https://cdn7.bigcommerce.com/s-ufhcuzfxw9/images/stencil/1280x1280/products/11898/15926/CE-PIPEG10__90162.1503517941.jpg?c=2&imbypass=on"}
 ]
 
-# Filter produk berdasarkan pencarian
+# Filter pencarian
 filtered_products = [p for p in products if search_query.lower() in p["name"].lower()]
 
-# Tampilkan produk dalam 3 kolom per baris
+# Tampilkan produk
 for i in range(0, len(filtered_products), 3):
     cols = st.columns(3)
     for idx, col in enumerate(cols):
@@ -99,10 +162,8 @@ for i in range(0, len(filtered_products), 3):
                     st.session_state.cart.append(p)
                     st.success(f"{p['name']} berhasil dimasukkan ke keranjang!")
 
-# Divider
+# Keranjang
 st.markdown("---")
-
-# Tampilkan isi keranjang
 st.markdown("### 🧺 Keranjang Belanja Kamu:")
 total = 0
 if st.session_state.cart:
@@ -119,14 +180,14 @@ if st.session_state.cart:
 else:
     st.info("Keranjang kamu masih kosong. Yuk beli dulu! 💚")
 
-# Footer gaya Gen Z
+# Footer
 st.markdown("---")
 st.markdown(
     '<p style="text-align:center; font-family:\'Orbitron\', sans-serif; font-size:1.1rem;">© 2025 CHEM!GO 🚀 — Marketplace Lab Tools Kekinian 🔬✨- POLITEKNIK AKA BOGOR </p>',
     unsafe_allow_html=True
 )
 
-# WhatsApp bubble lengkap dengan teks
+# WhatsApp Bubble
 st.markdown("""
 <div style="position: fixed; bottom: 25px; right: 25px; z-index: 100; display: flex; align-items: center;">
     <a href="https://wa.me/62895609627802?text=Halo%20CHEM!GO%2C%20saya%20mau%20bertanya%20tentang%20produk%20laboratorium." target="_blank" style="text-decoration: none; display: flex; align-items: center;">
