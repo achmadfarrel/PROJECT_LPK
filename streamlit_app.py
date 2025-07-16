@@ -6,7 +6,7 @@ import requests
 # -------------------- KONFIGURASI --------------------
 st.set_page_config(page_title="CHEMIGO - Marketplace", layout="wide", page_icon="🛒")
 USER_DATA_FILE = "users.json"
-TELEGRAM_BOT_TOKEN = "8101821591:AAGU8_nNQcx8VqxkpAjWO2j079lrDrvjj9k"
+TELEGRAM_BOT_TOKEN = "8101821591:AAHW-tXE4-IRf3VSm-riFlpprlKa0uZGhRA"
 TELEGRAM_CHAT_ID = "8101821591"
 
 # -------------------- AUTENTIKASI --------------------
