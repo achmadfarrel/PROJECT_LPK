@@ -30,10 +30,14 @@ def login_page():
             st.session_state["username"] = username
             st.success("Login berhasil! Selamat datang, " + username)
             st.query_params.clear()
+            # Cek apakah ada redirect setelah login
+            if "redirect_after_login" in st.session_state:
+                st.session_state.cart.append(st.session_state["redirect_after_login"])
+                st.success(f"{st.session_state['redirect_after_login']['name']} berhasil dimasukkan ke keranjang!")
+                del st.session_state["redirect_after_login"]
             st.rerun()
         else:
             st.error("Username atau password salah!")
-
     st.markdown("Belum punya akun? 👉 [Register di sini](?register=1)")
 
 def register_page():
@@ -61,7 +65,7 @@ elif "login" in query_params:
     login_page()
     st.stop()
 
-# Tombol logout jika sudah login
+# Tombol logout jika login
 if st.session_state.get("logged_in"):
     if st.sidebar.button("Logout"):
         st.session_state.logged_in = False
@@ -144,6 +148,7 @@ products = [
     {"name": "PIPET MOHR 10ML", "price": 75000, "image": "https://cdn7.bigcommerce.com/s-ufhcuzfxw9/images/stencil/1280x1280/products/11898/15926/CE-PIPEG10__90162.1503517941.jpg?c=2&imbypass=on"}
 ]
 
+# Filter pencarian
 filtered_products = [p for p in products if search_query.lower() in p["name"].lower()]
 
 # Tampilkan produk
@@ -159,6 +164,7 @@ for i in range(0, len(filtered_products), 3):
                 if st.button("🛒 Beli Yuk!", key=f"buy_{i+idx}"):
                     if not st.session_state.get("logged_in"):
                         st.warning("Silakan login terlebih dahulu untuk membeli produk.")
+                        st.session_state["redirect_after_login"] = p  # Simpan produk untuk ditambahkan setelah login
                         st.markdown("👉 [Klik di sini untuk login](?login=1)")
                     else:
                         st.session_state.cart.append(p)
