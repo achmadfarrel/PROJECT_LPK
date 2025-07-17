@@ -9,6 +9,7 @@ st.set_page_config(page_title="CHEMIGO - Marketplace", layout="wide", page_icon=
 USER_DATA_FILE = "users.json"
 BOT_TOKEN = "8101821591:AAFoQ7LCEkq7F1XGyxjAhpsUd4P6xI37WhE"
 CHAT_ID = "1490556477"
+QRIS_IMAGE_PATH = "/mnt/data/IMG_20250717_213959.png"
 
 # -------------------- AUTENTIKASI --------------------
 def load_users():
@@ -180,9 +181,17 @@ if st.session_state.cart:
     wa = st.text_input("No. WhatsApp (cth: 6281234567890)")
     metode_pembayaran = st.radio("💳 Pilih Metode Pembayaran", ["Transfer", "Cash on Delivery (COD)"], index=None)
 
+    bukti_transfer = None
+    if metode_pembayaran == "Transfer":
+        st.markdown("#### 📷 Scan QRIS untuk Transfer:")
+        st.image(QRIS_IMAGE_PATH, width=250)
+        bukti_transfer = st.file_uploader("📤 Upload Bukti Pembayaran", type=["jpg", "jpeg", "png", "pdf"])
+
     if st.button("📨 Kirim Pesanan", disabled=st.session_state.checkout_disabled):
         if not all([nama, kelas, nim, prodi, wa]) or metode_pembayaran is None:
             st.warning("⚠️ Mohon lengkapi semua data dan pilih metode pembayaran sebelum checkout.")
+        elif metode_pembayaran == "Transfer" and not bukti_transfer:
+            st.warning("⚠️ Mohon upload bukti pembayaran untuk metode Transfer.")
         else:
             st.session_state.checkout_disabled = True
             with st.spinner("⏳ Mengirim pesanan via Telegram..."):
@@ -198,7 +207,7 @@ if st.session_state.cart:
                 time.sleep(1.5)
 
                 if response.status_code == 200:
-                    st.success("✅ Pesanan berhasil dikirim! Admin akan segera menghubungi Whatsapp anda secepatnya")
+                    st.success("✅ Pesanan berhasil dikirim!")
                     st.session_state.cart.clear()
                 else:
                     st.error("❌ Gagal mengirim pesanan.")
