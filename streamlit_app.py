@@ -178,16 +178,17 @@ if st.session_state.cart:
     nim = st.text_input("NIM")
     prodi = st.text_input("Prodi")
     wa = st.text_input("No. WhatsApp (cth: 6281234567890)")
+    metode_pembayaran = st.radio("💳 Pilih Metode Pembayaran", ["Transfer", "Cash on Delivery (COD)"], index=None)
 
     if st.button("📨 Kirim Pesanan", disabled=st.session_state.checkout_disabled):
-        if not all([nama, kelas, nim, prodi, wa]):
-            st.warning("⚠️ Mohon lengkapi semua data sebelum checkout.")
+        if not all([nama, kelas, nim, prodi, wa]) or metode_pembayaran is None:
+            st.warning("⚠️ Mohon lengkapi semua data dan pilih metode pembayaran sebelum checkout.")
         else:
             st.session_state.checkout_disabled = True
             with st.spinner("⏳ Mengirim pesanan via Telegram..."):
                 username = st.session_state.get("username", "Anon")
                 pesan = f"🧾 Pesanan Baru dari {username}:%0A"
-                pesan += f"👤 Nama: {nama}%0A🏫 Kelas: {kelas}%0A🆔 NIM: {nim}%0A📚 Prodi: {prodi}%0A📱 WA: https://wa.me/{wa}%0A%0A📦 Produk:%0A"
+                pesan += f"👤 Nama: {nama}%0A🏫 Kelas: {kelas}%0A🆔 NIM: {nim}%0A📚 Prodi: {prodi}%0A💳 Pembayaran: {metode_pembayaran}%0A📱 WA: https://wa.me/{wa}%0A%0A📦 Produk:%0A"
                 for i, item in enumerate(st.session_state.cart, 1):
                     pesan += f"{i}. {item['name']} - Rp {item['price']:,}%0A"
                 pesan += f"%0A🧾 Total: Rp {total:,}"
