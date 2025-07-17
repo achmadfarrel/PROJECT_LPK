@@ -72,15 +72,68 @@ if st.session_state.get("logged_in"):
         st.session_state.username = ""
         st.rerun()
 
-# -------------------- STYLING --------------------
-# -------------------- STYLING --------------------
+# -------------------- STYLING -------------------
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
 <style>
-/* General background and font */
+/* Umum: latar dan font */
 body {
     background-color: #ecfff3;
     font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Judul */
+h1, h2, h3 {
+    color: #00C853;
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* Efek hover gambar produk */
+.stImage > img {
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+.stImage:hover > img {
+    transform: scale(1.03);
+}
+
+/* Styling tombol */
+button[kind="secondary"], button[kind="primary"] {
+    border-radius: 10px !important;
+    background: linear-gradient(to right, #00C853, #69F0AE);
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+button:hover {
+    transform: scale(1.02);
+    opacity: 0.9;
+}
+
+/* Styling kontainer markdown (keranjang) */
+div[data-testid="stMarkdownContainer"] ul {
+    background: #d4f8e8;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* Form input */
+input {
+    border: 2px solid #69F0AE !important;
+    border-radius: 8px !important;
+    background-color: #f4fdf5 !important;
+    padding: 10px !important;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 40px;
+}
+</style>
+""", unsafe_allow_html=True)
+
 }
 
 /* Heading styles */
