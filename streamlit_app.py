@@ -9,7 +9,7 @@ st.set_page_config(page_title="CHEMIGO - Marketplace", layout="wide", page_icon=
 USER_DATA_FILE = "users.json"
 BOT_TOKEN = "8101821591:AAFoQ7LCEkq7F1XGyxjAhpsUd4P6xI37WhE"
 CHAT_ID = "1490556477"
-QRIS_IMAGE_PATH = "/mnt/data/IMG_20250717_213959.png"
+QRIS_IMAGE_URL = "https://i.imgur.com/yYAFQ3H.png"  # Ganti dengan URL QRIS kamu
 
 # -------------------- AUTENTIKASI --------------------
 def load_users():
@@ -184,7 +184,7 @@ if st.session_state.cart:
     bukti_transfer = None
     if metode_pembayaran == "Transfer":
         st.markdown("#### 📷 Scan QRIS untuk Transfer:")
-        st.image(QRIS_IMAGE_PATH, width=250)
+        st.image("https://drive.google.com/file/d/1EAiaSkpCxmGZ28aiGQD1caL28zAnYNaq/view?usp=drivesdk", width=250)
         bukti_transfer = st.file_uploader("📤 Upload Bukti Pembayaran", type=["jpg", "jpeg", "png", "pdf"])
 
     if st.button("📨 Kirim Pesanan", disabled=st.session_state.checkout_disabled):
