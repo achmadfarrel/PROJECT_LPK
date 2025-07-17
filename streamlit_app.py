@@ -2,6 +2,7 @@ import streamlit as st
 import json
 import os
 import requests
+import time
 
 # -------------------- KONFIGURASI --------------------
 st.set_page_config(page_title="CHEMIGO - Marketplace", layout="wide", page_icon="🛒")
@@ -127,7 +128,7 @@ if "cart" not in st.session_state:
 
 col_judul, col_search = st.columns([3, 1])
 with col_judul:
-    st.markdown("<h1 style='font-family: Orbitron;'>🧪 CHEM!GO</h1><p>Platform Terpercaya se-AKA Bogor 🧬⚡</p>", unsafe_allow_html=True)
+    st.markdown("<h1 style='font-family: Orbitron;'>🧪 CHEM!GO</h1><p>Platform Terpercaya se-AKA Bogor 🧪⚡</p>", unsafe_allow_html=True)
 with col_search:
     search_query = st.text_input(" ", "", placeholder="Cari produk...", label_visibility="collapsed")
 
@@ -161,6 +162,10 @@ for i in range(0, len(filtered_products), 3):
 st.markdown("---")
 st.markdown("### 🧺 Keranjang Belanja")
 total = 0
+
+if "checkout_disabled" not in st.session_state:
+    st.session_state.checkout_disabled = False
+
 if st.session_state.cart:
     for idx, item in enumerate(st.session_state.cart, start=1):
         st.markdown(f"{idx}. **{item['name']}** - Rp {item['price']:,}")
@@ -174,24 +179,29 @@ if st.session_state.cart:
     prodi = st.text_input("Prodi")
     wa = st.text_input("No. WhatsApp (cth: 6281234567890)")
 
-    if st.button("📨 Checkout via Telegram"):
+    if st.button("📨 Kirim Pesanan", disabled=st.session_state.checkout_disabled):
         if not all([nama, kelas, nim, prodi, wa]):
-            st.warning("Mohon lengkapi semua data sebelum checkout.")
+            st.warning("⚠️ Mohon lengkapi semua data sebelum checkout.")
         else:
-            username = st.session_state.get("username", "Anon")
-            pesan = f"🧾 Pesanan Baru dari {username}:%0A"
-            pesan += f"👤 Nama: {nama}%0A🏫 Kelas: {kelas}%0A🆔 NIM: {nim}%0A📚 Prodi: {prodi}%0A📱 WA: https://wa.me/{wa}%0A%0A📦 Produk:%0A"
-            for i, item in enumerate(st.session_state.cart, 1):
-                pesan += f"{i}. {item['name']} - Rp {item['price']:,}%0A"
-            pesan += f"%0A🧾 Total: Rp {total:,}"
+            st.session_state.checkout_disabled = True
+            with st.spinner("⏳ Mengirim pesanan via Telegram..."):
+                username = st.session_state.get("username", "Anon")
+                pesan = f"🧾 Pesanan Baru dari {username}:%0A"
+                pesan += f"👤 Nama: {nama}%0A🏫 Kelas: {kelas}%0A🆔 NIM: {nim}%0A📚 Prodi: {prodi}%0A📱 WA: https://wa.me/{wa}%0A%0A📦 Produk:%0A"
+                for i, item in enumerate(st.session_state.cart, 1):
+                    pesan += f"{i}. {item['name']} - Rp {item['price']:,}%0A"
+                pesan += f"%0A🧾 Total: Rp {total:,}"
 
-            url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={pesan}"
-            response = requests.get(url)
-            if response.status_code == 200:
-                st.success("Pesanan berhasil dikirim!")
-                st.session_state.cart.clear()
-            else:
-                st.error("Gagal mengirim pesanan.")
+                url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={pesan}"
+                response = requests.get(url)
+                time.sleep(1.5)
+
+                if response.status_code == 200:
+                    st.success("✅ Pesanan berhasil dikirim!")
+                    st.session_state.cart.clear()
+                else:
+                    st.error("❌ Gagal mengirim pesanan.")
+            st.session_state.checkout_disabled = False
 else:
     st.info("Keranjang masih kosong.")
 
