@@ -184,8 +184,9 @@ if st.session_state.cart:
     bukti_transfer = None
     if metode_pembayaran == "Transfer":
         st.markdown("#### 📷 Scan QRIS untuk Transfer:")
-        st.image("https://imgur.com/a/IVGSsqK", width=250)
-        bukti_transfer = st.file_uploader("📤 Upload Bukti Pembayaran", type=["jpg", "jpeg", "png", "pdf"])
+        st.image("", width=250)
+        bukti_transfer = st.file_uploader("📤https://i.ibb.co/HFJyT3c/qris-chemigo.png
+ Upload Bukti Pembayaran", type=["jpg", "jpeg", "png", "pdf"])
 
     if st.button("📨 Kirim Pesanan", disabled=st.session_state.checkout_disabled):
         if not all([nama, kelas, nim, prodi, wa]) or metode_pembayaran is None:
