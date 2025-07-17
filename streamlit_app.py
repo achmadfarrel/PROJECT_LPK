@@ -184,7 +184,7 @@ if st.session_state.cart:
     bukti_transfer = None
     if metode_pembayaran == "Transfer":
         st.markdown("#### 📷 Scan QRIS untuk Transfer:")
-        st.image("[url=https://ibb.co/ynK3PMrP][img]https://i.ibb.co/ynK3PMrP/IMG-20250717-213959.png[/img][/url]", width=250)
+        st.image("<a href="https://ibb.co/ynK3PMrP"><img src="https://i.ibb.co/ynK3PMrP/IMG-20250717-213959.png" alt="IMG-20250717-213959" border="0"></a>", width=250)
         bukti_transfer = st.file_uploader("📤 Upload Bukti Pembayaran", type=["jpg", "jpeg", "png", "pdf"])
 
     if st.button("📨 Kirim Pesanan", disabled=st.session_state.checkout_disabled):
