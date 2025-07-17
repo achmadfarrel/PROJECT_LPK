@@ -198,7 +198,7 @@ if st.session_state.cart:
                 time.sleep(1.5)
 
                 if response.status_code == 200:
-                    st.success("✅ Pesanan berhasil dikirim!")
+                    st.success("✅ Pesanan berhasil dikirim! Admin akan segera menghubungi Whatsapp secepatnya")
                     st.session_state.cart.clear()
                 else:
                     st.error("❌ Gagal mengirim pesanan.")
