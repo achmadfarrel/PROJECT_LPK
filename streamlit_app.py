@@ -4,7 +4,7 @@ import requests
 
 # ---------------------- Konfigurasi Telegram ----------------------
 BOT_TOKEN = "8101821591:AAFoQ7LCEkq7F1XGyxjAhpsUd4P6xI37WhE"
-CHAT_ID = "1490556477"
+CHAT_ID = "5360058126"
 
 # ---------------------- Header Aplikasi ----------------------
 st.set_page_config(page_title="Formulir Pemesanan", page_icon="🧪")
@@ -30,13 +30,10 @@ produk_data = [
 
 keranjang = {}
 for produk in produk_data:
-    col1, col2 = st.columns([1, 3])
-    with col1:
-        st.image(produk["image"], width=80)
-    with col2:
-        qty = st.number_input(f"{produk['name']} (Rp {produk['price']:,})", min_value=0, step=1, key=produk['name'])
-        if qty > 0:
-            keranjang[produk['name']] = qty
+    st.image(produk["image"], width=250)
+    qty = st.number_input(f"{produk['name']} (Rp {produk['price']:,})", min_value=0, step=1, key=produk['name'])
+    if qty > 0:
+        keranjang[produk['name']] = qty
 
 # ---------------------- Metode Pembayaran ----------------------
 st.markdown("---")
@@ -100,6 +97,5 @@ if kirim:
 
         if response_text.status_code == 200 and (response_file is None or response_file.status_code == 200):
             st.success("✅ Pesanan dan bukti transfer berhasil dikirim!")
-            st.session_state.cart.clear()
         else:
             st.error("❌ Gagal mengirim pesanan atau bukti transfer.")
