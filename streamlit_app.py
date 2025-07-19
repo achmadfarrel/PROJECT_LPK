@@ -28,12 +28,16 @@ produk_data = [
     {"name": "ERLENMEYER 100ML", "price": 80000, "image": "https://tse2.mm.bing.net/th/id/OIP.T4JuL2Wy5LGHUfnN_Yt64QHaHa?pid=Api&P=0&h=220"}
 ]
 
+# Fitur pencarian produk
+query = st.text_input("🔍 Cari produk...").lower()
+
 keranjang = {}
 for produk in produk_data:
-    st.image(produk["image"], width=250)
-    qty = st.number_input(f"{produk['name']} (Rp {produk['price']:,})", min_value=0, step=1, key=produk['name'])
-    if qty > 0:
-        keranjang[produk['name']] = qty
+    if query in produk["name"].lower():
+        st.image(produk["image"], width=250)
+        qty = st.number_input(f"{produk['name']} (Rp {produk['price']:,})", min_value=0, step=1, key=produk['name'])
+        if qty > 0:
+            keranjang[produk['name']] = qty
 
 # ---------------------- Metode Pembayaran ----------------------
 st.markdown("---")
