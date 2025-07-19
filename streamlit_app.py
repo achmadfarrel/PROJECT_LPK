@@ -36,24 +36,22 @@ if not st.session_state.login:
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
-    if mode == "Login":
-        if st.button("Login"):
-            if username in st.session_state.users and st.session_state.users[username] == password:
-                st.session_state.login = True
-                st.success("Berhasil login!")
-                time.sleep(1)
-                st.experimental_rerun()
-            else:
-                st.error("Username atau password salah")
+    if mode == "Login" and st.button("Login"):
+        if username in st.session_state.users and st.session_state.users[username] == password:
+            st.session_state.login = True
+            st.success("Berhasil login!")
+            time.sleep(1)
+            st.experimental_rerun()
+        else:
+            st.error("Username atau password salah")
 
-    else:  # Register
-        if st.button("Register"):
-            if username in st.session_state.users:
-                st.warning("Username sudah terdaftar.")
-            else:
-                st.session_state.users[username] = password
-                save_users(st.session_state.users)
-                st.success("Registrasi berhasil! Silakan login.")
+    elif mode == "Register" and st.button("Register"):
+        if username in st.session_state.users:
+            st.warning("Username sudah terdaftar.")
+        else:
+            st.session_state.users[username] = password
+            save_users(st.session_state.users)
+            st.success("Registrasi berhasil! Silakan login.")
 
     st.stop()
 
