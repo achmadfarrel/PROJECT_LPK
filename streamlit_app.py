@@ -14,10 +14,14 @@ st.set_page_config(page_title="Formulir Pemesanan", page_icon="🧪")
 # ---------------------- CSS Gaya Gen Z + WA Floating Button ----------------------
 genz_css = '''
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 
 html, body, [class^="css"]  {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, label, div, p, span {
+  font-family: 'Montserrat', sans-serif !important;
 }
 
 #wa-button {
