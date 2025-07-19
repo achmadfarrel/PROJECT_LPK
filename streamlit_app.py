@@ -3,8 +3,8 @@ import time
 import requests
 
 # ---------------------- Konfigurasi Telegram ----------------------
-BOT_TOKEN = "8101821591:AAFoQ7LCEkq7F1XGyxjAhpsUd4P6xI37WhE"
-CHAT_ID = "14905564"
+BOT_TOKEN = "6831812374:AAFqZBC2XDoV52Qt_Gcya6w_nCDkSt_xMaY"
+CHAT_ID = "5360058126"
 
 # ---------------------- Header Aplikasi ----------------------
 st.set_page_config(page_title="Formulir Pemesanan", page_icon="🧪")
@@ -29,8 +29,6 @@ produk_data = [
 ]
 
 keranjang = {}
-total_harga = 0
-
 for produk in produk_data:
     col1, col2 = st.columns([1, 3])
     with col1:
@@ -38,8 +36,7 @@ for produk in produk_data:
     with col2:
         qty = st.number_input(f"{produk['name']} (Rp {produk['price']:,})", min_value=0, step=1, key=produk['name'])
         if qty > 0:
-            keranjang[produk['name']] = {"qty": qty, "price": produk["price"]}
-            total_harga += qty * produk["price"]
+            keranjang[produk['name']] = qty
 
 # ---------------------- Metode Pembayaran ----------------------
 st.markdown("---")
@@ -52,16 +49,14 @@ bukti_transfer = None
 if metode_pembayaran == "Transfer":
     st.markdown("#### 💳 Informasi Transfer:")
     st.markdown("""
-    **GoPay:** 0895-6096-27802  
-    a.n. ACHMAD FARREL INDERI  
+    **GoPay:** 0812-3456-7890  
+    a.n. CHEMIGO STORE  
 
-    **BNI:** 1884905416  
-    a.n. MUHAMMAD DZIKRIYANSYAH
-
-    **BRI** 5711-0102-9217-531
-    a.n. ACHMAD FARREL INDERI
+    **BRI:** 1234-5678-9012-3456  
+    a.n. CHEMIGO STORE
     """)
-    bank_tujuan = st.selectbox("🏦 Pilih Bank Tujuan Transfer", ["GoPay", "BNI", "BRI"], index=None)
+
+    bank_tujuan = st.selectbox("🏦 Pilih Bank Tujuan Transfer", ["GoPay", "BRI"], index=None)
     bukti_transfer = st.file_uploader("📤 Upload Bukti Pembayaran (jpg/png/pdf)", type=["jpg", "jpeg", "png", "pdf"])
 
 # ---------------------- Tombol Kirim ----------------------
@@ -86,15 +81,14 @@ if kirim:
             f"💳 Pembayaran: {metode_pembayaran}{bank_info}\n"
             f"\n📦 Produk:\n"
         )
-        for nama_produk, item in keranjang.items():
-            pesan += f"- {nama_produk}: {item['qty']} pcs (Rp {item['price']:,})\n"
-        pesan += f"\n💰 Total: Rp {total_harga:,}"
+        for produk, qty in keranjang.items():
+            pesan += f"- {produk}: {qty} pcs\n"
 
         # Kirim pesan teks ke Telegram
         url_text = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
         response_text = requests.post(url_text, data={"chat_id": CHAT_ID, "text": pesan})
 
-        # Kirim file jika transfer
+        # Kirim file bukti transfer ke Telegram jika ada
         if metode_pembayaran == "Transfer" and bukti_transfer is not None:
             files = {"document": (bukti_transfer.name, bukti_transfer.getvalue())}
             url_file = f"https://api.telegram.org/bot{BOT_TOKEN}/sendDocument"
@@ -102,9 +96,10 @@ if kirim:
         else:
             response_file = None
 
-        time.sleep(1.2)
+        time.sleep(1.5)
 
         if response_text.status_code == 200 and (response_file is None or response_file.status_code == 200):
             st.success("✅ Pesanan dan bukti transfer berhasil dikirim!")
+            st.session_state.cart.clear()
         else:
-            st.error(f"❌ Gagal mengirim pesanan. Status: Text {response_text.status_code}, File {response_file.status_code if response_file else 'N/A'}")
+            st.error("❌ Gagal mengirim pesanan atau bukti transfer.")
