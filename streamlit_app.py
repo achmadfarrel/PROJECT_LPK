@@ -11,6 +11,36 @@ CHAT_ID = "5360058126"
 # ---------------------- Konfigurasi Halaman ----------------------
 st.set_page_config(page_title="Formulir Pemesanan", page_icon="🧪")
 
+# ---------------------- CSS WA Floating Button ----------------------
+wa_style = '''
+<style>
+#wa-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #25D366;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+#wa-button img {
+  height: 24px;
+}
+</style>
+<a id="wa-button" href="https://wa.me/6281234567890" target="_blank">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" />
+  Chat jika ada pertanyaan
+</a>
+'''
+st.markdown(wa_style, unsafe_allow_html=True)
+
 # ---------------------- Login & Register ----------------------
 USER_DB_FILE = "users.json"
 
@@ -41,7 +71,7 @@ if not st.session_state.login:
             if username in st.session_state.users and st.session_state.users[username] == password:
                 st.session_state.login = True
                 st.success("Berhasil login!")
-                st.stop()
+                st.experimental_rerun()
             else:
                 st.error("Username atau password salah")
 
