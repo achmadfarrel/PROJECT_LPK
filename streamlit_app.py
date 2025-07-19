@@ -6,6 +6,22 @@ import requests
 BOT_TOKEN = "8101821591:AAFoQ7LCEkq7F1XGyxjAhpsUd4P6xI37WhE"
 CHAT_ID = "5360058126"
 
+# ---------------------- Login ----------------------
+if "login" not in st.session_state:
+    st.session_state.login = False
+
+if not st.session_state.login:
+    st.title("🔐 Login Pengguna")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.button("Login"):
+        if username == "admin" and password == "chemigo123":
+            st.session_state.login = True
+            st.success("Berhasil login!")
+        else:
+            st.error("Username atau password salah")
+    st.stop()
+
 # ---------------------- Header Aplikasi ----------------------
 st.set_page_config(page_title="Formulir Pemesanan", page_icon="🧪")
 st.title("🧪 Formulir Pemesanan Produk CHEMIGO")
