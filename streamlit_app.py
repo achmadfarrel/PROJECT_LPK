@@ -3,8 +3,8 @@ import time
 import requests
 
 # ---------------------- Konfigurasi Telegram ----------------------
-BOT_TOKEN = "6831812374:AAFqZBC2XDoV52Qt_Gcya6w_nCDkSt_xMaY"
-CHAT_ID = "5360058126"
+BOT_TOKEN = "8101821591:AAFoQ7LCEkq7F1XGyxjAhpsUd4P6xI37WhE"
+CHAT_ID = "1490556477"
 
 # ---------------------- Header Aplikasi ----------------------
 st.set_page_config(page_title="Formulir Pemesanan", page_icon="🧪")
