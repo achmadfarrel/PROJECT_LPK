@@ -14,7 +14,9 @@ st.set_page_config(page_title="Formulir Pemesanan", page_icon="🧪")
 # ---------------------- CSS Gaya Gen Z + WA Floating Button ----------------------
 genz_css = '''
 <style>
-body, .stApp {
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+html, body, [class^="css"]  {
   font-family: 'Poppins', sans-serif;
 }
 
@@ -33,13 +35,11 @@ body, .stApp {
   text-decoration: none;
   font-weight: bold;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  font-family: 'Poppins', sans-serif;
 }
 #wa-button img {
   height: 24px;
 }
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <a id="wa-button" href="https://wa.me/6281234567890" target="_blank">
   <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" />
   Chat jika ada pertanyaan
