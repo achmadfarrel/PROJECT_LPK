@@ -1,6 +1,8 @@
 import streamlit as st
 import time
 import requests
+import json
+import os
 
 # ---------------------- Konfigurasi Telegram ----------------------
 BOT_TOKEN = "8101821591:AAFoQ7LCEkq7F1XGyxjAhpsUd4P6xI37WhE"
@@ -10,10 +12,22 @@ CHAT_ID = "5360058126"
 st.set_page_config(page_title="Formulir Pemesanan", page_icon="🧪")
 
 # ---------------------- Login & Register ----------------------
+USER_DB_FILE = "users.json"
+
+def load_users():
+    if os.path.exists(USER_DB_FILE):
+        with open(USER_DB_FILE, "r") as f:
+            return json.load(f)
+    return {"admin": "chemigo123"}
+
+def save_users(users):
+    with open(USER_DB_FILE, "w") as f:
+        json.dump(users, f)
+
 if "login" not in st.session_state:
     st.session_state.login = False
 if "users" not in st.session_state:
-    st.session_state.users = {"admin": "chemigo123"}  # username: password
+    st.session_state.users = load_users()
 
 if not st.session_state.login:
     st.title("🔐 Login / Register")
@@ -38,6 +52,7 @@ if not st.session_state.login:
                 st.warning("Username sudah terdaftar.")
             else:
                 st.session_state.users[username] = password
+                save_users(st.session_state.users)
                 st.success("Registrasi berhasil! Silakan login.")
 
     st.stop()
