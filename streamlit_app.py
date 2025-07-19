@@ -21,17 +21,22 @@ wa = st.text_input("📱 Nomor WhatsApp (Contoh: 6281234567890)")
 # ---------------------- Daftar Produk ----------------------
 st.markdown("---")
 st.markdown("### 🧾 Pilih Produk:")
-produk_list = [
-    "LKS Kimia Kelas X", "LKS Kimia Kelas XI", "LKS Kimia Kelas XII",
-    "Kaos CHEMIGO Hitam", "Kaos CHEMIGO Putih",
-    "Totebag CHEMIGO", "Stiker CHEMIGO"
+produk_data = [
+    {"name": "BEAKER GLASS 100ML", "price": 50000, "image": "https://charlestonscientific.com.sg/wp-content/uploads/2021/10/Glassware-1_beaker-100ml.jpg"},
+    {"name": "BEAKER GLASS 250ML", "price": 60000, "image": "https://image.made-in-china.com/2f0j00ihQlwPCcbAfE/Laboratory-Glassware-Beaker-Borosilicate-Pyrex-Glass-Beaker-250ml-500ml-1000ml-Beaker-with-Graduations.jpg"},
+    {"name": "PIPET VOLUME 10ML", "price": 95000, "image": "https://www.piwine.com/media/Products/VP10.jpg"},
+    {"name": "ERLENMEYER 100ML", "price": 80000, "image": "https://tse2.mm.bing.net/th/id/OIP.T4JuL2Wy5LGHUfnN_Yt64QHaHa?pid=Api&P=0&h=220"}
 ]
 
 keranjang = {}
-for produk in produk_list:
-    qty = st.number_input(f"{produk}", min_value=0, step=1, key=produk)
-    if qty > 0:
-        keranjang[produk] = qty
+for produk in produk_data:
+    col1, col2 = st.columns([1, 3])
+    with col1:
+        st.image(produk["image"], width=80)
+    with col2:
+        qty = st.number_input(f"{produk['name']} (Rp {produk['price']:,})", min_value=0, step=1, key=produk['name'])
+        if qty > 0:
+            keranjang[produk['name']] = qty
 
 # ---------------------- Metode Pembayaran ----------------------
 st.markdown("---")
@@ -44,14 +49,17 @@ bukti_transfer = None
 if metode_pembayaran == "Transfer":
     st.markdown("#### 💳 Informasi Transfer:")
     st.markdown("""
-    **GoPay:** 0812-3456-7890  
-    a.n. CHEMIGO STORE  
+    **GoPay:** 0895-6096-27802  
+    a.n. ACHMAD FARREL INDERI  
 
-    **BRI:** 1234-5678-9012-3456  
-    a.n. CHEMIGO STORE
+    **BNI:** 1884905416  
+    a.n. MUHAMMAD DZIKRIYANSYAH
+
+    **BRI** 5711-0102-9217-531
+    a.n. ACHMAD FARREL INDERI
     """)
 
-    bank_tujuan = st.selectbox("🏦 Pilih Bank Tujuan Transfer", ["GoPay", "BRI"], index=None)
+    bank_tujuan = st.selectbox("🏦 Pilih Bank Tujuan Transfer", ["GoPay", "BNI", "BRI"], index=None)
     bukti_transfer = st.file_uploader("📤 Upload Bukti Pembayaran (jpg/png/pdf)", type=["jpg", "jpeg", "png", "pdf"])
 
 # ---------------------- Tombol Kirim ----------------------
