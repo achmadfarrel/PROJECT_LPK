@@ -29,6 +29,8 @@ produk_data = [
 ]
 
 keranjang = {}
+total_harga = 0
+
 for produk in produk_data:
     col1, col2 = st.columns([1, 3])
     with col1:
@@ -36,7 +38,8 @@ for produk in produk_data:
     with col2:
         qty = st.number_input(f"{produk['name']} (Rp {produk['price']:,})", min_value=0, step=1, key=produk['name'])
         if qty > 0:
-            keranjang[produk['name']] = qty
+            keranjang[produk['name']] = {"qty": qty, "price": produk["price"]}
+            total_harga += qty * produk["price"]
 
 # ---------------------- Metode Pembayaran ----------------------
 st.markdown("---")
@@ -58,7 +61,6 @@ if metode_pembayaran == "Transfer":
     **BRI** 5711-0102-9217-531
     a.n. ACHMAD FARREL INDERI
     """)
-
     bank_tujuan = st.selectbox("🏦 Pilih Bank Tujuan Transfer", ["GoPay", "BNI", "BRI"], index=None)
     bukti_transfer = st.file_uploader("📤 Upload Bukti Pembayaran (jpg/png/pdf)", type=["jpg", "jpeg", "png", "pdf"])
 
@@ -76,22 +78,23 @@ if kirim:
     else:
         bank_info = f" ({bank_tujuan})" if metode_pembayaran == "Transfer" else ""
         pesan = (
-            f"👤 Nama: {nama}%0A"
-            f"🏫 Kelas: {kelas}%0A"
-            f"🆔 NIM: {nim}%0A"
-            f"📚 Prodi: {prodi}%0A"
-            f"📱 WA: https://wa.me/{wa}%0A"
-            f"💳 Pembayaran: {metode_pembayaran}{bank_info}%0A"
-            f"%0A📦 Produk:%0A"
+            f"👤 Nama: {nama}\n"
+            f"🏫 Kelas: {kelas}\n"
+            f"🆔 NIM: {nim}\n"
+            f"📚 Prodi: {prodi}\n"
+            f"📱 WA: https://wa.me/{wa}\n"
+            f"💳 Pembayaran: {metode_pembayaran}{bank_info}\n"
+            f"\n📦 Produk:\n"
         )
-        for produk, qty in keranjang.items():
-            pesan += f"- {produk}: {qty} pcs%0A"
+        for nama_produk, item in keranjang.items():
+            pesan += f"- {nama_produk}: {item['qty']} pcs (Rp {item['price']:,})\n"
+        pesan += f"\n💰 Total: Rp {total_harga:,}"
 
         # Kirim pesan teks ke Telegram
-        url_text = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={pesan}"
-        response_text = requests.get(url_text)
+        url_text = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+        response_text = requests.post(url_text, data={"chat_id": CHAT_ID, "text": pesan})
 
-        # Kirim file bukti transfer ke Telegram jika ada
+        # Kirim file jika transfer
         if metode_pembayaran == "Transfer" and bukti_transfer is not None:
             files = {"document": (bukti_transfer.name, bukti_transfer.getvalue())}
             url_file = f"https://api.telegram.org/bot{BOT_TOKEN}/sendDocument"
@@ -99,10 +102,9 @@ if kirim:
         else:
             response_file = None
 
-        time.sleep(1.5)
+        time.sleep(1.2)
 
         if response_text.status_code == 200 and (response_file is None or response_file.status_code == 200):
             st.success("✅ Pesanan dan bukti transfer berhasil dikirim!")
-            st.session_state.cart.clear()
         else:
-            st.error("❌ Gagal mengirim pesanan atau bukti transfer.")
+            st.error(f"❌ Gagal mengirim pesanan. Status: Text {response_text.status_code}, File {response_file.status_code if response_file else 'N/A'}")
