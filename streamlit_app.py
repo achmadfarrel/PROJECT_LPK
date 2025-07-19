@@ -6,20 +6,37 @@ import requests
 BOT_TOKEN = "8101821591:AAFoQ7LCEkq7F1XGyxjAhpsUd4P6xI37WhE"
 CHAT_ID = "5360058126"
 
-# ---------------------- Login ----------------------
+# ---------------------- Login & Register ----------------------
 if "login" not in st.session_state:
     st.session_state.login = False
+if "users" not in st.session_state:
+    st.session_state.users = {"admin": "chemigo123"}  # username: password
 
 if not st.session_state.login:
-    st.title("🔐 Login Pengguna")
+    st.title("🔐 Login / Register")
+    mode = st.radio("Pilih Mode:", ["Login", "Register"])
+
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
-    if st.button("Login"):
-        if username == "admin" and password == "chemigo123":
-            st.session_state.login = True
-            st.success("Berhasil login!")
-        else:
-            st.error("Username atau password salah")
+
+    if mode == "Login":
+        if st.button("Login"):
+            if username in st.session_state.users and st.session_state.users[username] == password:
+                st.session_state.login = True
+                st.success("Berhasil login!")
+                time.sleep(1)
+                st.experimental_rerun()
+            else:
+                st.error("Username atau password salah")
+
+    else:  # Register
+        if st.button("Register"):
+            if username in st.session_state.users:
+                st.warning("Username sudah terdaftar.")
+            else:
+                st.session_state.users[username] = password
+                st.success("Registrasi berhasil! Silakan login.")
+
     st.stop()
 
 # ---------------------- Header Aplikasi ----------------------
