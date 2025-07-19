@@ -6,6 +6,9 @@ import requests
 BOT_TOKEN = "8101821591:AAFoQ7LCEkq7F1XGyxjAhpsUd4P6xI37WhE"
 CHAT_ID = "5360058126"
 
+# ---------------------- Konfigurasi Halaman ----------------------
+st.set_page_config(page_title="Formulir Pemesanan", page_icon="🧪")
+
 # ---------------------- Login & Register ----------------------
 if "login" not in st.session_state:
     st.session_state.login = False
@@ -40,7 +43,6 @@ if not st.session_state.login:
     st.stop()
 
 # ---------------------- Header Aplikasi ----------------------
-st.set_page_config(page_title="Formulir Pemesanan", page_icon="🧪")
 st.title("🧪 Formulir Pemesanan Produk CHEMIGO")
 st.markdown("Silakan isi data diri dan pilih produk yang ingin Anda pesan.")
 
