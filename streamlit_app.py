@@ -181,7 +181,7 @@ if kirim:
         # Kirim file bukti transfer ke Telegram jika ada
         if metode_pembayaran == "Transfer" and bukti_transfer is not None:
             files = {"document": (bukti_transfer.name, bukti_transfer.getvalue())}
-            url_file = f"https://api.telegram.org/bot{BOT_TOKEN}/sendDocument"
+            url_file = f"https://api.telegram.org/bot{8101821591:AAFoQ7LCEkq7F1XGyxjAhpsUd4P6xI37WhE}/sendDocument"
             response_file = requests.post(url_file, data={"chat_id": CHAT_ID}, files=files)
         else:
             response_file = None
