@@ -6,7 +6,7 @@ import os
 
 # ---------------------- Konfigurasi Telegram ----------------------
 BOT_TOKEN = "8101821591:AAFoQ7LCEkq7F1XGyxjAhpsUd4P6xI37WhE"
-CHAT_ID = "5360058126"
+CHAT_ID = "1490556477"
 
 # ---------------------- Konfigurasi Halaman ----------------------
 st.set_page_config(page_title="Formulir Pemesanan", page_icon="🧪")
